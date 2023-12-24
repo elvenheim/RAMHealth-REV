@@ -1,0 +1,44 @@
+.header-container{
+    display: flex;
+    flex-direction: flex-start;
+    align-items: center;
+    height: 7%;
+    width: 100%;
+    border-bottom: 1px solid #000;
+}
+
+.user-management{
+    position: absolute;
+    font-size: 1.4rem;
+    font-weight: bold;
+    margin-top: 32px;
+    margin-left: 100px;
+    margin-right: 75px;
+}
+
+.user-management:hover{
+    cursor: pointer;
+    color: #E7AE41;
+    transition: 0.2s color ease-in-out;
+}
+
+.deleted-users{
+    position: absolute;
+    font-size: 1.4rem;
+    font-weight: bold;
+    border-bottom: 4px solid #E7AE41;
+    margin-top: 32px;
+    margin-left: 360px;
+    margin-right: 75px;
+}
+
+.deleted-users:hover{
+    cursor: pointer;
+    color: #E7AE41;
+    transition: 0.2s color ease-in-out;
+}
+
+a{
+    text-decoration: none;
+    color: #000;
+}
