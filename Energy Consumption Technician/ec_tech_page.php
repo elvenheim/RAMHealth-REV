@@ -1,3 +1,5 @@
+<?php require_once('../scripts/database_connect.php');?>
+
 <!DOCTYPE html>
 <html lang="en">
     <head>

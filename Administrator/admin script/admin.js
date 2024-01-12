@@ -33,6 +33,7 @@ function uncheckAll(checkbox) {
 }
 
 
+// Javascript for Sorting Users Table
 function sortTable(columnIndex) {
     let table, rows, switching, i, x, y, shouldSwitch, sortIndicator;
     table = document.querySelector(".user-management-table");
@@ -76,6 +77,7 @@ function sortTable(columnIndex) {
 } 
 
 
+// Javascript for Sorting Deleted Users Table
 function sortDeleteTable(columnIndex) {
   let table, rows, switching, i, x, y, shouldSwitch, sortIndicator;
   table = document.querySelector(".admin-deleted-user-table");
