@@ -74,7 +74,7 @@
             </div>
             <div id="adduser-popup-bg" class = "popup-bg" style="display:none;">
             </div>  
-            <button id="add-user-btn" class="add-btn" onclick="">
+            <button id="add-user-btn" class="add-btn" onclick="adduser_popup()">
                 <span class="fas fa-plus"></span>
                 <span style="display: inline-block;">Add User</span>
             </button>
@@ -87,11 +87,6 @@
                                 <th><a href="#arrange-employee_email" onclick="sortTable(2)">Email Address<span class="sort-indicator">&#x25BC</span></a></th>
                                 <th><a href="#arrange-role_names" onclick="sortTable(3)">Role<span class="sort-indicator">&#x25BC</span></a></th>
                                 <th><a href="#arrange-employee_create_at" onclick="sortTable(4)">Created At<span class="sort-indicator">&#x25BC</span></a></th>
-                                <!-- <th>User ID</th>
-                                <th>Full Name</th>
-                                <th>Email Address</th>
-                                <th>Role</th>
-                                <th>Created At</th> -->
                                 <th>Account Status</th>
                                 <th>Actions</th>
                             </tr>

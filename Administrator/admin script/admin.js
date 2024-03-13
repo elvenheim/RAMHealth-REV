@@ -4,25 +4,19 @@ function adduser_popup() {
   var popupBg = document.getElementById("adduser-popup-bg");
   var popup_close_btn = document.getElementById("close-btn");
 
-  if (popupBg.style.opacity === "0" && popup.style.opacity === "0") {
-    popupBg.style.opacity = "1";
-    popup.style.opacity = "1";
-    popupBg.style.pointerEvents = "visible";
-    popup.style.pointerEvents = "visible";
-    popup_close_btn.style.cursor = "pointer";
+  if (popupBg.style.display === "none" && popup.style.display === "none") {
+    popupBg.style.display = "block";
+    popup.style.display = "block";
   } else {
-    popupBg.style.opacity = "0";
-    popup.style.opacity = "0";
-    popupBg.style.pointerEvents = "none";
-    popup.style.pointerEvents = "none";
-    popup_close_btn.style.cursor = "default";
+    popupBg.style.display = "none";
+    popup.style.display = "none";
     document.getElementById("add_user").reset();
   }
   popup_close_btn.setAttribute("onclick", "adduser_popup()");
 }
 
 function cancelEdit() {
-  window.location.href = '../Administrator/admin script/users_table.php'; // Replace with the desired page URL to redirect the user
+  window.location.href = '../admin_page.php'; // Replace with the desired page URL to redirect the user
 }
 
 function uncheckAll(checkbox) {
@@ -31,7 +25,6 @@ function uncheckAll(checkbox) {
       checkboxes[i].checked = checkbox.checked;
   }
 }
-
 
 // Javascript for Sorting Users Table
 function sortTable(columnIndex) {

@@ -16,7 +16,6 @@
     border: none;
     text-decoration: none;
     font-size: 1.2rem;
-    font-weight: bold;
 }
 
 .fa-plus{
@@ -46,6 +45,7 @@ th, td{
 
 th{
     background-color: #E7AE41;
+    border: 1px solid #000;
     cursor: default;
     font-size: 1.2rem;
 }
@@ -79,27 +79,30 @@ td{
     color: #E7AE41 !important;
 }
 
-/* will fix later */
-.overflow-cell{
-    max-width: 150px;
+/* cell overflow for roles */
+.overflow-cell {
+    white-space: nowrap;
+    overflow: hidden;
     text-overflow: ellipsis;
+    max-width: 150px; /* Adjust this width as needed */
 }
 
-.overflow-cell:hover{
-    position: absolute;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    text-overflow: none;
-    height: max-content;
-    max-width: max-content; 
-    background-color: #fff;
+.overflow-popup {
     color: #000;
+    position: absolute;
+    background-color: #f9f9f9;
+    border: 1px solid #000;
+    padding: 5px;
+    display: none;
+    max-width: max-content; /* Adjust this width as needed */
+    background: white;
+}
+
+.overflow-cell:hover .overflow-popup {
+    display: block;
 }
 
 /* will fix later */
-
 tr.disabled td:not(.action-buttons){
     background-color: #ccc;
 }

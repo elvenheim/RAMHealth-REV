@@ -34,10 +34,16 @@
 			echo '<td style="width: max-content;">' . $row['employee_id'] . '</td>';
 			echo '<td>' . $row['employee_fullname'] . '</td>';
 			echo '<td>' . $row['employee_email'] . '</td>';
+
+            // roles of user, additional with the overflow cells
             $roles = explode(',', $row['role_names']);
             $numberOfRoles = count($roles);
-            $cellClass = ($numberOfRoles >= 3) ? 'overflow-cell' : '';
-            echo '<td class="' . $cellClass . '">' . implode(', ', $roles) . '</td>';
+            $cellClass = ($numberOfRoles >= 2) ? 'overflow-cell' : '';
+            echo '<td class="' . $cellClass . '">' . implode(', ', $roles);
+            // Pop-up window for overflow content
+            echo '<div class="overflow-popup">' . implode(', ', $roles) . '</div>';
+            echo '</td>';
+
             echo '<td style="max-width: 100px;">' . $row['employee_create_at'] . '</td>';
 			echo '<td style="max-width: 100px;">';
 			echo '<form class="status-form">';
@@ -133,12 +139,13 @@
 
 <!-- other table scripts here -->
 <script>
+// Script for Updating User Status
 function updateStatus(form) {
     var formData = $(form).serialize();
     var originalStatus = $(form).find('select[name="user_status"]').data('original-status');
     if (confirm("Do you want to update the user status?")) {
         $.ajax({
-            url: 'update_status.php',
+            url: '../Administrator/admin script/update_status.php',
             type: 'POST',
             data: formData,
             success: function(response) {
@@ -162,6 +169,7 @@ function updateStatus(form) {
     }
 }
 
+//Script for Editing a User
 function editRow(employeeId) {
 	var currentEmployeeId = <?php echo $_SESSION['employee_id']; ?>;
 	if (employeeId == currentEmployeeId) {
@@ -172,7 +180,7 @@ function editRow(employeeId) {
 	if (confirm("Do you want to edit this user?")){
     var form = document.createElement("form");
     form.setAttribute("method", "post");
-    form.setAttribute("action", "fetch_employee_details.php");
+    form.setAttribute("action", "../Administrator/admin script/admin_fetch_input.php");
     
     var input = document.createElement("input");
     input.setAttribute("type", "hidden");
@@ -187,6 +195,8 @@ function editRow(employeeId) {
 	}
 }
 
+
+// Script for Deleting a User
 function deleteRow(employeeId) {
 	var currentEmployeeId = <?php echo $_SESSION['employee_id']; ?>;
 	if (employeeId == currentEmployeeId) {
@@ -195,7 +205,7 @@ function deleteRow(employeeId) {
 	}
     if (confirm("Do you want to delete this user?")) {
         var xhr = new XMLHttpRequest();
-        xhr.open("POST", "admin_delete_user.php", true);
+        xhr.open("POST", "../Administrator/admin script/admin_delete_user.php", true);
         xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
         xhr.onreadystatechange = function() {
             if (xhr.readyState == 4) {
