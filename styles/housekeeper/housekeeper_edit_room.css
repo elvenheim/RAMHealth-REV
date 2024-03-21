@@ -47,75 +47,13 @@ html, body {
     font-size: 16px;
 }
 
-.form-container input[type="number"]{
-    width: 95%;
-    padding: 10px;
-    margin-bottom: 20px;
-    border: 1px solid #ccc;
-    font-family: 'Nunito San', sans-serif;
-    font-size: 16px;
-}
-
-.form-container input[type="email"]{
-    width: 95%;
-    padding: 10px;
-    margin-bottom: 20px;
-    border: 1px solid #ccc;
-    font-family: 'Nunito San', sans-serif;
-    font-size: 16px;
-}
-
-.form-container .checkbox-list {
-    width: 96.7%;
-    height: 70px; /* Set a fixed height */
-    overflow-y: auto; /* Enable vertical scrolling */
-    border: 1px solid #ccc;
-    padding: 5px;
-    margin-bottom: 20px;
-    font-family: 'Nunito San', sans-serif;
-}
-
-.form-container .checkbox-list label {
-    display: block;
-    margin-bottom: 5px;
-    font-family: 'Nunito San', sans-serif;
-    cursor: pointer;
-}
-
-.form-container .checkbox-list input[type="checkbox"] {
-    margin-right: 5px;
-    font-family: 'Nunito San', sans-serif;
-    font-size: 16px;
-    cursor: pointer;
-}
-
 .form-container select {
-    width: 99%;
+    width: 99.3%;
     padding: 10px;
     margin-bottom: 20px;
-    background-color: transparent;
     border: 1px solid #ccc;
-    font-family: 'Nunito San', sans-serif;
+    font-family: 'Nunito Sans', sans-serif;
     font-size: 16px;
-}
-
-.assign-roles-container {
-    display: flex;
-    align-items: center;
-}
-
-.assign-roles-container label {
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-}
-
-.assign-roles-container label input[type="checkbox"] {
-    margin-left: 312px;
-    margin-right: 5px;
-    font-family: 'Nunito San', sans-serif;
-    font-size: 16px;
-    cursor: pointer;
 }
 
 .form-container input[type="submit"] {

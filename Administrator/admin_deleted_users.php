@@ -13,6 +13,7 @@
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.3.0/css/all.css">
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script src="../scripts/logout.js"></script>
+        <script src="../Administrator/admin script/admin.js"></script>
     </head>
     <body>
         <div class="navbar">
@@ -37,33 +38,32 @@
         </div>
         <div class="page-content">
             <div class="header-container">
-                <div class="user-management" >
-                    <a href="admin_page.php">User Management</a>
-                </div>
-                <div class="deleted-users">
-                    <a href="admin_deleted_users.php">Deleted Users</a>
-                </div>
+                <a class="user-management" href="admin_page.php">
+                    User Management
+                </a>
+                <a class="deleted-users" href="admin_deleted_users.php">
+                    Deleted Users
+                </a>
+            </div>
+            <div style="opacity: 0;" id="add-user-btn" class="whitespace">
+                <span class="fas fa-plus"></span>
+                <span style="display: inline-block;">&nbsp;</span>
             </div>
             <div class="user-table-container">
                 <table class="user-management-table">
                         <thead>
                             <tr>
-                                <!-- <th><a href="#arrange-employee_id" onclick="sortTable(0)">User ID<span class="sort-indicator">&#x25BC</span></a></th>
-                                <th><a href="#arrange-employee_fullname" onclick="sortTable(1)">Full Name<span class="sort-indicator">&#x25BC</span></a></th>
-                                <th><a href="#arrange-employee_email" onclick="sortTable(2)">Email Address<span class="sort-indicator">&#x25BC</span></a></th>
-                                <th><a href="#arrange-role_names" onclick="sortTable(3)">Role<span class="sort-indicator">&#x25BC</span></a></th>
-                                <th><a href="#arrange-employee_create_at" onclick="sortTable(4)">Created At<span class="sort-indicator">&#x25BC</span></a></th> -->
                                 <th>User ID</th>
                                 <th>Full Name</th>
                                 <th>Email Address</th>
                                 <th>Role</th>
                                 <th>Created At</th>
-                                <th>Account Status</th>
+                                <th>Deleted At</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
-                        <tbody id="users-table">
-                            <?php include '../Administrator/admin script/users_table.php'?>
+                        <tbody id="deleted-users-table">
+                            <?php include '../Administrator/admin script/deleted_users_table.php'?>
                         </tbody>
                     </table>
                     <ul id="pagination" class="pagination">

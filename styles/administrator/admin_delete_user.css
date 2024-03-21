@@ -17,7 +17,6 @@
 }
 
 .user-management:hover{
-    cursor: pointer;
     color: #E7AE41;
     transition: 0.2s color ease-in-out;
 }
@@ -33,7 +32,6 @@
 }
 
 .deleted-users:hover{
-    cursor: pointer;
     color: #E7AE41;
     transition: 0.2s color ease-in-out;
 }

@@ -110,32 +110,37 @@
 }
 
 
-    function loadPage(page) {
-        if (page < 1 || page > totalPages || page === currentPage) {
-            return;
+function loadPage(page) {
+    if (page < 1 || page > totalPages || page === currentPage) {
+        return;
+    }
+
+    currentPage = page;
+    updatePagination();
+    loadTableContent();
+
+    // Prevent default behavior of anchor links
+    event.preventDefault();
+}
+
+function loadTableContent() {
+    $.ajax({
+        url: '../Administrator/admin script/users_table.php',
+        type: 'GET',
+        data: { page: currentPage },
+        success: function (data) {
+            $('#users-table').fadeOut('fast', function () {
+                $(this).html(data).fadeIn('fast');
+            });
+        },
+        error: function () {
+            alert('Error loading table content.');
         }
-
-        currentPage = page;
-        updatePagination();
-        loadTableContent();
-    }
-
-    function loadTableContent() {
-        $.ajax({
-            url: '../Administrator/admin script/users_table.php',
-            type: 'GET',
-            data: { page: currentPage },
-            success: function (data) {
-                $('#users-table').fadeOut('fast', function () {
-                    $(this).html(data).fadeIn('fast');
-                });
-            },
-            error: function () {
-                alert('Error loading table content.');
-            }
-        });
-    }
+    });
+}
 </script>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <!-- other table scripts here -->
 <script>
@@ -180,7 +185,7 @@ function editRow(employeeId) {
 	if (confirm("Do you want to edit this user?")){
     var form = document.createElement("form");
     form.setAttribute("method", "post");
-    form.setAttribute("action", "../Administrator/admin script/admin_fetch_input.php");
+    form.setAttribute("action", "../Administrator/admin script/admin_update_details.php");
     
     var input = document.createElement("input");
     input.setAttribute("type", "hidden");

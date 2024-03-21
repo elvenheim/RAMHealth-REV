@@ -4,30 +4,6 @@
     align-items: center;
 }
 
-/* add user button */
-.add-btn{
-    display: flex;
-    text-align: center;
-    width: max-content;
-    margin-top: 50px;
-    margin-bottom: 30px;
-    margin-left: 95px;
-    background-color: transparent;
-    border: none;
-    text-decoration: none;
-    font-size: 1.2rem;
-}
-
-.fa-plus{
-    margin-right: 5px;
-}
-
-.add-btn:hover{
-    cursor: pointer;
-    color: #E7AE41;
-    transition: 0.2s color ease-in-out;
-}
-
 /* table part */
 .table-no-record{
     position: relative;
@@ -121,6 +97,7 @@ tr.disabled td:not(.action-buttons){
     font-size: 1rem;
 }
 
+/* action buttons */
 .action-buttons {
     position: relative;
     width: 10px;
@@ -170,6 +147,23 @@ tr.disabled td:not(.action-buttons){
 }
 
 .edit-button:hover{
+    background-color: #E7AE41;
+}
+
+.restore-button[type="button"]{
+    position: relative;
+    right: 0px;
+    box-shadow: none;
+    border: 1px solid #000;
+    background-color: #007BFF;
+    color: #fff;
+    border-radius: 5px;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+}
+
+.restore-button:hover{
     background-color: #E7AE41;
 }
 

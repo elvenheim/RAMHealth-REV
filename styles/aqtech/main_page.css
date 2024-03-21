@@ -1,0 +1,104 @@
+.header-container{
+    z-index: 2; /*higher z-index number means it is above the previous number*/
+    display: flex;
+    flex-direction: flex-start;
+    align-items: center;
+    height: 7%;
+    width: 100%;
+    border-bottom: 1px solid #000;
+}
+
+.param-table{
+    position: absolute;
+    font-size: 1.4rem;
+    font-weight: bold;
+    border-bottom: 4px solid #E7AE41;
+    margin-top: 32px;
+    margin-left: 100px;
+    margin-right: 75px;
+}
+
+.param-table:hover{
+    color: #E7AE41;
+    transition: 0.2s color ease-in-out;
+}
+
+.sensor-table{
+    position: absolute;
+    font-size: 1.4rem;
+    font-weight: bold;
+    margin-top: 32px;
+    margin-left: 360px;
+    margin-right: 75px;
+}
+
+.sensor-table:hover{
+    color: #E7AE41;
+    transition: 0.2s color ease-in-out;
+}
+
+.deleted-sensor{
+    position: absolute;
+    font-size: 1.4rem;
+    font-weight: bold;
+    margin-top: 32px;
+    margin-left: 650px;
+    margin-right: 75px;
+}
+
+.deleted-sensor:hover{
+    color: #E7AE41;
+    transition: 0.2s color ease-in-out;
+}
+
+a{
+    text-decoration: none;
+    color: #000;
+}
+
+/* table button style */
+.table-option-container{
+    z-index: 1;
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 99%;
+}
+
+.table-btn{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 7.5%;
+    width: 50%;
+    border: 1px #000 solid;
+    background-color: #fff;
+    font-size: 1.4rem;
+    font-weight: bold;
+    color: #000;
+    cursor: pointer;
+}
+
+.up-btn{
+    margin-bottom: 20px;
+}
+
+.middle-btn{
+    margin-bottom: 20px;
+}
+
+.down-btn{
+    margin-bottom: 60px;
+}
+
+.hover:hover{
+    background-color: #E7AE41;
+    color: #fff;
+    box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .175);
+    transition: background-color 0.2s ease-in-out, 
+                color 0.2s ease-in-out, 
+                box-shadow 0.2s ease-in-out;
+}

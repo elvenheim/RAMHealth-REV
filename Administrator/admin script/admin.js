@@ -1,23 +1,6 @@
-function adduser_popup() {
-  console.log("adduser_popup function called");
-  var popup = document.getElementById("adduser-popup");
-  var popupBg = document.getElementById("adduser-popup-bg");
-  var popup_close_btn = document.getElementById("close-btn");
-
-  if (popupBg.style.display === "none" && popup.style.display === "none") {
-    popupBg.style.display = "block";
-    popup.style.display = "block";
-  } else {
-    popupBg.style.display = "none";
-    popup.style.display = "none";
-    document.getElementById("add_user").reset();
-  }
-  popup_close_btn.setAttribute("onclick", "adduser_popup()");
-}
-
-function cancelEdit() {
+function goBack() {
   window.location.href = '../admin_page.php'; // Replace with the desired page URL to redirect the user
-}
+} 
 
 function uncheckAll(checkbox) {
   var checkboxes = document.querySelectorAll('.checkbox-list input[type="checkbox"]');
@@ -68,7 +51,6 @@ function sortTable(columnIndex) {
         }
     }
 } 
-
 
 // Javascript for Sorting Deleted Users Table
 function sortDeleteTable(columnIndex) {

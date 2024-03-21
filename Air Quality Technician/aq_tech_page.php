@@ -7,6 +7,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Air Quality Technician</title>
         <link rel="stylesheet" href="../styles/general.css">
+        <link rel="stylesheet" href="../styles/aqtech/main_page.css">
         <link rel="shortcut icon" href="../images/apc-logo.ico"/>
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.3.0/css/all.css">
         <script src="../scripts/logout.js"></script>
@@ -33,6 +34,29 @@
             </div>
         </div>
         <div class="page-content">
+            <div class="header-container">
+                <a class="param-table" href="aq_tech_page.php">
+                    Parameter Tables
+                </a>
+                <a class="sensor-table" href="aq_tech_sensors.php">
+                    Sensor Management
+                </a>
+                <a class="deleted-sensor" href="aq_tech_deleted_sensors.php">
+                    Deleted Sensors
+                </a>
+            </div>
+            <div class="table-option-container">
+                <button class="up-btn table-btn hover">
+                    Air Particulate Matter
+                <button class="middle-btn table-btn hover">
+                    Gas Level
+                <button class="middle-btn table-btn hover">
+                    Indoor Temperature
+                <button class="middle-btn table-btn hover">
+                    Outdoor Temperature
+                <button class="down-btn table-btn hover">
+                    Relative Humidity
+            </div>
         </div>
     </body>
 </html>
