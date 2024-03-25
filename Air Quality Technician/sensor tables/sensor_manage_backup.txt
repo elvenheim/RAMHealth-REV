@@ -21,10 +21,24 @@
         ORDER BY rn.room_num ASC, aq.aq_sensor_status DESC
         LIMIT $offset, $rows_per_page";
     $result_table = mysqli_query($con, $sql);
-
+    
+    echo '<table class="table">';
+    echo "<thead>";
+    echo "<tr>";
+    echo "<th>Building Floor</th>";
+    echo "<th>Facility</th>";
+    echo "<th>Sensor ID</th>";
+    echo "<th>Sensor Name</th>";
+    echo "<th>Sensor Type</th>";
+    echo "<th>Date Added</th>";
+    echo "<th>Status</th>";
+    echo "<th>Actions</th>";
+    echo "</tr>";
+    echo "</thead>";
+    echo '<tbody id="sensor-manage-table">';
     while ($row = mysqli_fetch_assoc($result_table)){
         echo "<tr" . ($row['aq_sensor_status'] == 0 ? " class=\"disabled\"" : '') . ">";
-        echo '<td style="width: 100px">' . $row['bldg_floor'] . "</td>";
+        echo "<td>" . $row['bldg_floor'] . "</td>";
         echo "<td>" . $row['room_num'] . "</td>";
         echo "<td>" . $row['aq_sensor_id'] . "</td>";
         echo "<td>" . $row['aq_sensor_name'] . "</td>";
@@ -49,4 +63,8 @@
         echo "</td>";
         echo "</tr>";
     }
+    echo "</tbody>";
+    echo '</table>';
+    echo '<ul id="pagination" class="pagination">';
+    echo "</ul>";
 ?>

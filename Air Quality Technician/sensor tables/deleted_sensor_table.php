@@ -37,6 +37,8 @@
         echo '<div>';
         echo '<button class="restore-button" type="button" onclick="restoreRow(\'' . $row['deleted_aq_sensor_id'] . '\')"> 
                 <i class="fas fa-rotate-left"></i></button>';
+        echo '<button class="delete-button" type="button" onclick="deleteRow(\'' . $row['deleted_aq_sensor_id'] . '\')"> 
+                <i class="fas fa-trash"></i></button>';
         echo '</div>';
         echo "</td>"; 
         echo "</tr>";

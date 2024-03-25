@@ -36,15 +36,9 @@
         </div>
         <div class="page-content">
             <div class="header-container">
-                <a class="param-table" href="aq_tech_page.php">
-                    Parameter Tables
-                </a>
-                <a class="sensor-table" href="aq_tech_sensors.php">
-                    Sensor Management
-                </a>
-                <a class="deleted-sensor" href="aq_tech_deleted_sensors.php">
-                    Deleted Sensors
-                </a>
+                <span><a class="param-table" href="aq_tech_page.php">Air Quality Parameters</a></span>
+                <span><a class="sensor-table" href="aq_tech_sensors.php">Sensors Management</a></span>
+                <span><a class="deleted-sensor" href="aq_tech_deleted_sensors.php">Deleted Sensors</a></span>
             </div>
             <a style="opacity: 0;" id="add-user-btn" class="whitespace">
                 <span class="fas fa-plus"></span>
