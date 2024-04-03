@@ -12,4 +12,3 @@ function collapse_logout(){
     fullName.style.color ="#FFF"
   }
 }
-

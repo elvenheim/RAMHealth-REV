@@ -7,6 +7,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Energy Consumption Technician</title>
         <link rel="stylesheet" href="../styles/general.css">
+        <link rel="stylesheet" href="../styles/ectech/main_page.css">
+        <link rel="stylesheet" href="../styles/ectech/ec_tech_table.css">
         <link rel="shortcut icon" href="../images/apc-logo.ico"/>
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.3.0/css/all.css">
         <script src="../scripts/logout.js"></script>
@@ -33,6 +35,36 @@
             </div>
         </div>
         <div class="page-content">
+            <div class="header-container">
+                <span><a class="param-table" href="ec_tech_page.php">Energy Consumption Parameters</a></span>
+                <span><a class="sensor-table" href="ec_tech_sensors.php">Sensors Management</a></span>
+                <span><a class="deleted-sensor" href="ec_tech_deleted_sensors.php">Deleted Sensors</a></span>
+            </div>
+            <a style="opacity: 1;" id="add-user-btn" class="add-btn" href="../Air Quality Technician/aq tech script/add_aq_sensor.php">
+                <span class="fas fa-plus"></span>
+                <span style="display: inline-block;">Add Sensor</span>
+            </a>
+            <div class="table-container">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Building Floor</th>
+                            <th>Facility</th>
+                            <th>Sensor ID</th>
+                            <th>Sensor Name</th>
+                            <th>Sensor Type</th>
+                            <th>Date Added</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="sensor-manage-table">
+                        <?php include '../Air Quality Technician/sensor tables/sensor_manage_table.php'?>
+                    </tbody>
+                </table>
+                <ul id="pagination" class="pagination">
+                </ul>
+            </div>
         </div>
     </body>
 </html>

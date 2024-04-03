@@ -7,8 +7,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>RAM Health</title>
         <link rel="stylesheet" href="../styles/general.css">
-        <link rel="stylesheet" href="../styles/homepage/role_cards.css">
-        <link rel="stylesheet" href="../styles/homepage/greet_user.css">
+        <link rel="stylesheet" href="../styles/homepage/homepage.css">
+        <link rel="stylesheet" href="../styles/homepage/tutorial.css">
         <link rel="shortcut icon" href="../images/apc-logo.ico"/>
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.3.0/css/all.css">
         <script src="../scripts/logout.js"></script>
@@ -44,7 +44,47 @@
                 <div class="role-list-card">
                     <?php include '../scripts/role_cards.php'?>
                 </div>
+                <div class="tutorial-container">
+                    <button class="tutorial-button" type="button" onclick="show_tutorial()">TUTORIAL</button>
+                    <div class="tutorial-background"></div>
+                    <div class="tutorial-card" stlye="display: block;">
+                        <div class="tutorial-header">
+                            <span class="tutorial-title">Tutorial</span>
+                            <span class="tutorial-close">X</span>
+                        </div>
+                        <div class="tutorial-content">
+                            <video width="max-content" height="max-content" controls>
+                            <source src="../Home/tutorial/kira the hedgehog.mp4" type="video/mp4">
+                            Your browser does not support the video element.
+                            </video>
+                            <video width="max-content" height="max-content" controls>
+                            <source src="../Home/tutorial/LEZ GO.mp4" type="video/mp4">
+                            Your browser does not support the video element.
+                            </video>
+                            <audio controls>
+                            <source src="../Home/tutorial/welcome to my WOOOOOOOOOOOOOOORLDDDDDD full.mp3" type="audio/mpeg">
+                            Your browser does not support the audio element.
+                            </audio>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </body>
 </html>
+
+<script>
+    function show_tutorial(){
+        var tutorial = document.querySelector('.tutorial-card');
+        var tutorial_background = document.querySelector('.tutorial-background');
+        tutorial.style.display = 'block';
+        tutorial_background.style.display = 'block';
+    }
+    function hide_tutorial(){
+        var tutorial = document.querySelector('.tutorial-card');
+        var tutorial_background = document.querySelector('.tutorial-background');
+        tutorial.style.display = 'none';
+        tutorial_background.style.display = 'none';
+    }
+    document.querySelector('.tutorial-close').addEventListener('click', hide_tutorial);
+</script>

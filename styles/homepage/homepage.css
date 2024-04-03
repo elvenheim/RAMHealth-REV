@@ -1,0 +1,79 @@
+.homepage-card {
+    height: 100%;
+    width: 100%;
+}
+
+/* greet user style */
+.greet-user{
+    display: flex;
+    flex-direction: flex-start;
+    align-items: center;
+    justify-content: center;
+    margin-top: 140px;
+    margin-bottom: 60px;
+    font-size: 2.5rem;
+}
+
+.website-name{
+    color: #E7AE41;
+    font-weight: bold;
+}
+
+/* role cards style */
+.role-list-card {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.role-button {
+    height: 300px;
+    width: 320px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5px;
+    border: solid 2px black;
+    margin-right: 20px;
+    margin-bottom: 20px;
+    transition: background-color 0.2s ease-in-out, 
+                box-shadow 0.2s ease-in-out,
+                height 0.2s ease-in-out,
+                width 0.2s ease-in-out;
+}
+
+.role-button:hover {
+    height: 300px;
+    width: 340px;
+    cursor: pointer;
+    background-color: rgba(231, 174, 65, 0.5);
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.175);
+}
+
+.role-button:active {
+    background-color: #E7AE41;
+}
+
+.role-link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    white-space: none;
+    word-wrap: break-word;
+}
+
+.role-icon {
+    position: absolute;
+    margin-bottom: 50px;
+    height: 150px;
+    width: 150px;
+}
+
+.role-title {
+    position: relative;
+    margin-top: 150px;
+    font-size: 1.5rem;
+    text-align: center;
+}
