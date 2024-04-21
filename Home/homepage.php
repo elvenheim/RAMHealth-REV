@@ -45,26 +45,35 @@
                     <?php include '../scripts/role_cards.php'?>
                 </div>
                 <div class="tutorial-container">
-                    <button class="tutorial-button" type="button" onclick="show_tutorial()">TUTORIAL</button>
+                    <button class="tutorial-button" type="button" onclick="show_tutorial() ">TUTORIAL</button>
                     <div class="tutorial-background"></div>
-                    <div class="tutorial-card" stlye="display: block;">
+                    <div class="tutorial-card">
                         <div class="tutorial-header">
                             <span class="tutorial-title">Tutorial</span>
-                            <span class="tutorial-close">X</span>
+                            <span class="tutorial-close fa-solid fa-xmark"></span>
                         </div>
                         <div class="tutorial-content">
+                            <span class="admin-title video-title">Administrator Tutorial</span>
                             <video width="max-content" height="max-content" controls>
                             <source src="../Home/tutorial/kira the hedgehog.mp4" type="video/mp4">
                             Your browser does not support the video element.
                             </video>
+                            <span class="video-title">Housekeeper Tutorial</span>
+                            <video width="max-content" height="max-content" controls>
+                            <source src="../Home/tutorial/kira the hedgehog.mp4" type="video/mp4">
+                            Your browser does not support the video element.
+                            </video>
+                            <span class="video-title">Air Quality Technician Tutorial</span>
                             <video width="max-content" height="max-content" controls>
                             <source src="../Home/tutorial/LEZ GO.mp4" type="video/mp4">
                             Your browser does not support the video element.
                             </video>
+                            <span class="video-title">Energy Consumption Technician Tutorial</span>
                             <audio controls>
                             <source src="../Home/tutorial/welcome to my WOOOOOOOOOOOOOOORLDDDDDD full.mp3" type="audio/mpeg">
                             Your browser does not support the audio element.
                             </audio>
+                            <span class="video-title">Building Management Head Tutorial</span>
                         </div>
                     </div>
                 </div>
@@ -77,7 +86,7 @@
     function show_tutorial(){
         var tutorial = document.querySelector('.tutorial-card');
         var tutorial_background = document.querySelector('.tutorial-background');
-        tutorial.style.display = 'block';
+        tutorial.style.display = 'flex';
         tutorial_background.style.display = 'block';
     }
     function hide_tutorial(){
@@ -85,6 +94,7 @@
         var tutorial_background = document.querySelector('.tutorial-background');
         tutorial.style.display = 'none';
         tutorial_background.style.display = 'none';
+        event.preventDefault();
     }
     document.querySelector('.tutorial-close').addEventListener('click', hide_tutorial);
 </script>
