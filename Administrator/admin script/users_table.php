@@ -120,7 +120,7 @@ function loadPage(page) {
     loadTableContent();
 
     // Prevent default behavior of anchor links
-    event.preventDefault();
+    event.preventDefault()                                                                             
 }
 
 function loadTableContent() {

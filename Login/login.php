@@ -17,7 +17,6 @@
             </div>
             <div class="login-form">
                 <form class="form-container" action="login_authenticate.php" name="signin-form" method="POST" autocomplete="off">
-                    <!-- will double check here -->
                     <div class="input-container">
                         <input id="email_field" name="email" type="email" placeholder="Email" autocomplete="email" required>
                         <i class="fas fa-envelope"></i>
@@ -26,7 +25,6 @@
                         <input id="password_field" name="password" type="password" placeholder="Password" autocomplete="password" required>
                         <i class="fas fa-eye" onclick="show_password()"></i>
                     </div>
-
                     <div class="popup" id="errorPopup">
                         <div class="popup-content">
                             <?php
