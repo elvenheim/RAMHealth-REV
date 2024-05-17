@@ -105,30 +105,75 @@ body {
     border: 0 solid rgba(0,0,0,.125);
 }
 
-/* add user button */
-.add-btn{
+.button-container{
     display: flex;
-    text-align: center;
+    flex-direction: row;
+    align-items: center;
     width: max-content;
     margin-top: 50px;
-    margin-bottom: 30px;
     margin-left: 95px;
+    margin-right: 95px;
+    margin-bottom: 20px;
+}
+
+/* sort dropdown */
+.sorting-dropdown{
+    display: flex;
+    text-align: center;
+    align-items: center;
     background-color: transparent;
     border: none;
     text-decoration: none;
     font-size: 1.2rem;
 }
 
-.fa-plus{
-    margin-right: 5px;
+.sorting-dropdown select{
+    width: 155px;
+    height: 30px;
+    font-size: 1.2rem;
+    margin-left: 5px;
+    color: #000;
+    background-color: #fff;
+    border: 1px solid #000;
+    padding: 4px;
 }
 
-.add-btn:hover{
+/* search input */
+.search-input{
+    font-size: 1.2rem;
+}
+
+#search-input {
+    padding: 4px;
+    border: 1px solid #000;
+    width: 155px;
+    height: 30px;
+    font-size: 1.2rem;
+    color: #000;
+    margin-right: 20px;
+}
+
+/*import data button*/
+.import-btn{
+    display: flex;
+    text-align: center;
+    background-color: transparent;
+    border: none;
+    text-decoration: none;
+    font-size: 1.2rem;
+}
+
+.fa-file-import{
+    margin-right: 7px;
+}
+
+.import-btn:hover{
     cursor: pointer;
     color: #E7AE41;
     transition: 0.2s color ease-in-out;
 }
 
+/* white space styling */
 .whitespace{
     display: flex;
     text-align: center;

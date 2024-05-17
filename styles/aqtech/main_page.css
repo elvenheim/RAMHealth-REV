@@ -40,3 +40,27 @@ a{
     text-decoration: none;
     color: #000;
 }
+
+/* add user button */
+.add-btn {
+    display: flex;
+    text-align: center;
+    background-color: transparent;
+    border: none;
+    text-decoration: none;
+    font-size: 1.2rem;
+    margin-left: 1270px;
+    margin-right: 20px;
+    opacity: 0 !important;
+    pointer-events: none;
+}
+
+.fa-plus {
+    margin-right: 5px;
+}
+
+.add-btn:hover {
+    cursor: pointer;
+    color: #E7AE41;
+    transition: 0.2s color ease-in-out;
+}

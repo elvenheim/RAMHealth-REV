@@ -29,7 +29,6 @@
             if (mysqli_num_rows($result) > 0) {
                 $employee = mysqli_fetch_assoc($result);
                 
-
                 // Retrieve all roles from the database
                 $roleIdsQuery = "SELECT role_id, role_name FROM role_type";
                 $roleIdsResult = mysqli_query($con, $roleIdsQuery);

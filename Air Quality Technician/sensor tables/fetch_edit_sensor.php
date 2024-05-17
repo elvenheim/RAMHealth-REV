@@ -28,7 +28,7 @@
                 // Enable foreign key checks
                 mysqli_query($con, "SET FOREIGN_KEY_CHECKS = 1");
                 echo '<script type="text/javascript">alert("Sensor updated successfully.");
-                window.location.href="air_technician_sensor_main.php"</script>';
+                window.location.href="../aq_tech_sensors.php"</script>';
             } else {
                 echo 'Failed to insert new sensor data.';
             }
