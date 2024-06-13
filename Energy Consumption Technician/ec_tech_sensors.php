@@ -13,6 +13,7 @@
     <link rel="shortcut icon" href="../images/apc-logo.ico" />
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.3.0/css/all.css">
     <script src="../scripts/logout.js"></script>
+    <script src="../scripts/table.js"></script>
 </head>
 
 <body>
@@ -43,24 +44,48 @@
         </div>
         <div class="button-container">
             <div class="sorting-dropdown">
-                <label for="sort-by">Sort By:</label>
-                <select id="sort-by" onchange="sortTable()">
-                    <option value="bldg_floor">Building Floor</option>
-                    <option value="room_num">Facility</option>
-                    <option value="room_type">Facility Type</option>
-                    <option value="room_added_at">Last Update</option>
+                <label for="floor-filter">Panel Group:</label>
+                <select id="floor-filter" onchange="sortFloor()">
+                    <?php
+                    $sql = "SELECT ecpg.*
+                                FROM ec_panel_grouping ecpg";
+                    $result_table = mysqli_query($con, $sql);
+
+                    echo '<option value="none">None</option>';
+
+                    while ($row = mysqli_fetch_assoc($result_table)) {
+                        echo '<option value="' . $row['ec_panel_grouping_id'] . '">' . $row['ec_panel_grouping_id'] . '</option>';
+                    }
+                    ?>
+                </select>
+            </div>
+            <div class="sorting-dropdown">
+                <label for="sensor-type-filter" style="margin-left: 20px;">Sensor Type:</label>
+                <select id="sensor-type-filter" onchange="sortSensorType()">
+                    <?php
+                    $sql = "SELECT st.*
+                                FROM sensor_type st
+                                WHERE st.sensor_class_id = 2";
+                    $result_table = mysqli_query($con, $sql);
+
+                    echo '<option value="none">None</option>';
+
+                    while ($row = mysqli_fetch_assoc($result_table)) {
+                        echo '<option value="' . $row['sensor_type_id'] . '">' . $row['sensor_type_name'] . '</option>';
+                    }
+                    ?>
                 </select>
             </div>
             <a style="opacity: 1;" id="add-user-btn" class="add-btn" href="../Housekeeper/housekeeper script/add_room.php">
                 <span class="fas fa-plus"></span>
-                <span style="display: inline-block;">Add Room</span>
+                <span style="display: inline-block;">Add Sensors</span>
             </a>
-            <form class="import-table" method="POST" enctype="multipart/form-data" action="../scripts/import_table.php">
+            <form class="import-table" method="POST" enctype="multipart/form-data" action="../scripts/import_table.php" id="importForm">
                 <label class="import-btn">
                     <span class="fas fa-file-import"></span>
-                    <span style="display: inline-block;"> Import</span>
-                    <input type="hidden" id="table_name" name="table_name" value="room_number">
-                    <input type="file" name="csv_file" style="display: none;" required accept=".csv" onchange="submitForm()">
+                    <span style="display: inline-block;">Import</span>
+                    <input type="hidden" id="table_name" name="table_name">
+                    <input type="file" name="csv_file" id="csvFile" style="display: none;" required accept=".csv" onchange="updateTableName()">
                 </label>
             </form>
         </div>
@@ -68,10 +93,12 @@
             <table class="table">
                 <thead>
                     <tr>
+                        <th>Panel Group</th>
+                        <th>Panel Label</th>
                         <th>Building Floor</th>
                         <th>Facility</th>
+                        <th>Arduino ID</th>
                         <th>Sensor ID</th>
-                        <th>Sensor Name</th>
                         <th>Sensor Type</th>
                         <th>Date Added</th>
                         <th>Status</th>
@@ -79,7 +106,7 @@
                     </tr>
                 </thead>
                 <tbody id="sensor-manage-table">
-                    <?php include '../Air Quality Technician/sensor tables/sensor_manage_table.php' ?>
+                    <?php include '../Energy Consumption Technician/sensor tables/sensor_manage_table.php' ?>
                 </tbody>
             </table>
             <ul id="pagination" class="pagination">

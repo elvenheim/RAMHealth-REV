@@ -47,8 +47,11 @@
                 <select id="sort-by" onchange="sortTable()">
                     <option value="bldg_floor">Building Floor</option>
                     <option value="room_num">Facility</option>
-                    <option value="room_type">Facility Type</option>
-                    <option value="room_added_at">Last Update</option>
+                    <option value="deleted_aq_sensor_id">Sensor ID</option>
+                    <option value="deleted_aq_sensor_name">Sensor Name</option>
+                    <option value="sensor_type_name">Sensor Type</option>
+                    <option value="deleted_aq_sensor_add_At">Date Added</option>
+                    <option value="deleted_aq_sensor_deleted_at">Deleted At</option>
                 </select>
             </div>
         </div>

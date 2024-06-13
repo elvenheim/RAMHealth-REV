@@ -42,7 +42,7 @@
             <!-- Add other fields you want to edit -->
 
             <div class="form-buttons">
-                <input type="submit" value="Update">
+                <input type="submit" value="Add Room">
                 <button type="button" class="cancel-edit-button" onclick="goBack()">Cancel</button>
             </div>
         </form>

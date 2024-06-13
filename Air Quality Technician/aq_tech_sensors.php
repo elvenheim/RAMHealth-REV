@@ -13,6 +13,7 @@
     <link rel="shortcut icon" href="../images/apc-logo.ico" />
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.3.0/css/all.css">
     <script src="../scripts/logout.js"></script>
+    <script src="../scripts/table.js"></script>
 </head>
 
 <body>
@@ -46,45 +47,46 @@
                 <label for="floor-filter">Floor:</label>
                 <select id="floor-filter" onchange="sortFloor()">
                     <?php
-                        $sql = "SELECT bf.*
+                    $sql = "SELECT bf.*
                                 FROM building_floor bf";
-                        $result_table = mysqli_query($con, $sql);
+                    $result_table = mysqli_query($con, $sql);
 
-                        echo '<option value="none">-Select-</option>';
+                    echo '<option value="none">None</option>';
 
-                        while ($row = mysqli_fetch_assoc($result_table)) {
-                            echo '<option value="' . $row['building_floor'] . '">' . $row['bldg_floor_name'] . '</option>';
-                        }
+                    while ($row = mysqli_fetch_assoc($result_table)) {
+                        echo '<option value="' . $row['building_floor'] . '">' . $row['bldg_floor_name'] . '</option>';
+                    }
                     ?>
                 </select>
             </div>
             <div class="sorting-dropdown">
-                <label for="sensor-type-filter">&nbsp &nbsp Sensor Type:</label>
+                <label for="sensor-type-filter" style="margin-left:20px;">Sensor Type:</label>
                 <select id="sensor-type-filter" onchange="sortSensorType()">
                     <?php
-                        $sql = "SELECT st.*
+                    $sql = "SELECT st.*
                                 FROM sensor_type st
                                 WHERE st.sensor_class_id = 1";
-                        $result_table = mysqli_query($con, $sql);
+                    $result_table = mysqli_query($con, $sql);
 
-                        echo '<option value="none">-Select-</option>';
+                    echo '<option value="none">None</option>';
+                    echo '<option value="all">All</option>';
 
-                        while ($row = mysqli_fetch_assoc($result_table)) {
-                            echo '<option value="' . $row['sensor_type_id'] . '">' . $row['sensor_type_name'] . '</option>';
-                        }
+                    while ($row = mysqli_fetch_assoc($result_table)) {
+                        echo '<option value="' . $row['sensor_type_id'] . '">' . $row['sensor_type_name'] . '</option>';
+                    }
                     ?>
                 </select>
             </div>
-            <a style="opacity: 1;" id="add-user-btn" class="add-btn" href="../Housekeeper/housekeeper script/add_room.php">
+            <a style="opacity: 1;" id="add-user-btn" class="add-btn" href="../Air Quality Technician/sensor tables/add_aq_sensor.php">
                 <span class="fas fa-plus"></span>
                 <span style="display: inline-block;">Add Sensors</span>
             </a>
-            <form class="import-table" method="POST" enctype="multipart/form-data" action="../scripts/import_table.php">
+            <form class="import-table" method="POST" enctype="multipart/form-data" action="../scripts/import_table.php" id="importForm">
                 <label class="import-btn">
                     <span class="fas fa-file-import"></span>
-                    <span style="display: inline-block;"> Import</span>
-                    <input type="hidden" id="table_name" name="table_name" value="room_number">
-                    <input type="file" name="csv_file" style="display: none;" required accept=".csv" onchange="submitForm()">
+                    <span style="display: inline-block;">Import</span>
+                    <input type="hidden" id="table_name" name="table_name">
+                    <input type="file" name="csv_file" id="csvFile" style="display: none;" required accept=".csv" onchange="updateTableName()">
                 </label>
             </form>
         </div>

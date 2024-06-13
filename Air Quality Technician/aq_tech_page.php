@@ -13,6 +13,7 @@
     <link rel="shortcut icon" href="../images/apc-logo.ico" />
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.3.0/css/all.css">
     <script src="../scripts/logout.js"></script>
+    <script src="../scripts/table.js"></script>
 </head>
 
 <body>
@@ -63,13 +64,21 @@
                     <option value="date_acquired">Date Acquired</option>
                 </select>
             </div>
-            <form class="import-table" method="POST" enctype="multipart/form-data" action="../scripts/import_table.php">
-                <label class="import-btn">
+            <form class="import-table" method="POST" enctype="multipart/form-data" action="../scripts/import_table.php" id="importForm">
+                <label class="import-btn" style="margin-right: 20px; margin-left: 1050px;">
                     <span class="fas fa-file-import"></span>
-                    <span style="display: inline-block;"> Export</span>
-                    <input type="hidden" id="table_name" name="table_name" value="room_number">
-                    <input type="file" name="csv_file" style="display: none;" required accept=".csv" onchange="submitForm()">
+                    <span style="display: inline-block;">Import</span>
+                    <input type="hidden" id="table_name" name="table_name">
+                    <input type="file" name="csv_file" id="csvFile" style="display: none;" required accept=".csv" onchange="updateTableName()">
                 </label>
+            </form>
+            <form class="export-table" method="POST" action="../scripts/export_table.php" id="exportForm">
+                <label class="export-btn" for="exportBtn">
+                    <span class="fas fa-file-export"></span>
+                    <span style="display: inline-block;">Export</span>
+                </label>
+                <input type="hidden" id="table_name" name="table_name" value="aq_param_five">
+                <button type="submit" id="exportBtn" style="display: none;"></button>
             </form>
         </div>
         <div class="table-container">

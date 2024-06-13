@@ -43,7 +43,7 @@
         </div>
         <div class="button-container">
             <div class="search-input">
-                <label for="search-input">Facility:</label>
+                <label for="search-input">Parameter Type:</label>
                 <input type="text" id="search-input" oninput="searchTable()" placeholder="Search...">
             </div>
             <div class="sorting-dropdown">
@@ -55,18 +55,6 @@
                     <option value="room_added_at">Last Update</option>
                 </select>
             </div>
-            <a style="opacity: 1;" id="add-user-btn" class="add-btn" href="../Housekeeper/housekeeper script/add_room.php">
-                <span class="fas fa-plus"></span>
-                <span style="display: inline-block;">Add Room</span>
-            </a>
-            <form class="import-table" method="POST" enctype="multipart/form-data" action="../scripts/import_table.php">
-                <label class="import-btn">
-                    <span class="fas fa-file-import"></span>
-                    <span style="display: inline-block;"> Import</span>
-                    <input type="hidden" id="table_name" name="table_name" value="room_number">
-                    <input type="file" name="csv_file" style="display: none;" required accept=".csv" onchange="submitForm()">
-                </label>
-            </form>
         </div>
         <div class="table-container">
             <table class="table">

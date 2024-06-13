@@ -43,7 +43,7 @@
         </div>
         <div class="button-container">
             <div class="sorting-dropdown">
-                <label for="sort-by">Sort By:</label>
+                <label for="sort-by">Sort By :</label>
                 <select id="sort-by" onchange="sortTable()">
                     <option value="bldg_floor">Building Floor</option>
                     <option value="room_num">Facility</option>
@@ -51,30 +51,20 @@
                     <option value="room_added_at">Last Update</option>
                 </select>
             </div>
-            <a style="opacity: 1;" id="add-user-btn" class="add-btn" href="../Housekeeper/housekeeper script/add_room.php">
-                <span class="fas fa-plus"></span>
-                <span style="display: inline-block;">Add Room</span>
-            </a>
-            <form class="import-table" method="POST" enctype="multipart/form-data" action="../scripts/import_table.php">
-                <label class="import-btn">
-                    <span class="fas fa-file-import"></span>
-                    <span style="display: inline-block;"> Import</span>
-                    <input type="hidden" id="table_name" name="table_name" value="room_number">
-                    <input type="file" name="csv_file" style="display: none;" required accept=".csv" onchange="submitForm()">
-                </label>
-            </form>
         </div>
         <div class="table-container">
             <table class="table">
                 <thead>
                     <tr>
+                        <th>Panel Group</th>
+                        <th>Panel Label</th>
                         <th>Building Floor</th>
                         <th>Facility</th>
+                        <th>Arduino ID</th>
                         <th>Sensor ID</th>
-                        <th>Sensor Name</th>
                         <th>Sensor Type</th>
                         <th>Date Added</th>
-                        <th>Deleted At</th>
+                        <th>Status</th>
                         <th>Actions</th>
                     </tr>
                 </thead>

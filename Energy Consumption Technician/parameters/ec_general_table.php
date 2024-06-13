@@ -52,7 +52,7 @@
                 ) AS latest 
                 ON data.sensor_id = latest.sensor_id 
                 AND CONCAT(data.date_column, ' ', data.time_column) = latest.max_datetime
-                WHERE rn.room_num LIKE '%$search_term%'
+                WHERE st.sensor_type_name LIKE '%$search_term%'
                 ORDER BY $sort_by ASC
                 LIMIT $offset, $rows_per_page";
 
@@ -72,17 +72,43 @@
             echo "<td>" . $row['current_column'] . " amps</td>";
             echo "</tr>";
         }
-    }
 
-    // Get page number from URL parameter, default to 1
-    $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+        // Count total rows
+        $count_query = "SELECT COUNT(*) as count FROM (
+                            SELECT 'acu' AS type, ec_sensor_acu_id AS sensor_id
+                            FROM ec_param_acu_data
+                            UNION ALL
+                            SELECT 'lights' AS type, ec_sensor_lights_id AS sensor_id
+                            FROM ec_param_lights_data
+                            UNION ALL
+                            SELECT 'others' AS type, ec_sensor_others_id AS sensor_id
+                            FROM ec_param_others_data
+                            UNION ALL
+                            SELECT 'outlet' AS type, ec_sensor_outlet_id AS sensor_id
+                            FROM ec_param_outlet_data
+                            UNION ALL
+                            SELECT 'util' AS type, ec_sensor_util_id AS sensor_id
+                            FROM ec_param_util_data
+                        ) as count_table";
+        $count_result = mysqli_query($con, $count_query);
+        $count_row = mysqli_fetch_assoc($count_result);
+        $total_rows = $count_row['count'];
+
+        return array(
+            'sql' => $sql,
+            'total_rows' => $total_rows
+        );
+        }
+
     $rows_per_page = 10;
-
-    // Example of getting sort_by parameter from URL, adjust as needed
+    $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
     $sort_by = isset($_GET['sort_by']) ? $_GET['sort_by'] : 'arduino_room_num';
 
-    // Call displayGeneralData function to display merged table
-    displayGeneralData($con, $page, $rows_per_page, $sort_by);
+    $result = displayGeneralData($con, $page, $rows_per_page, $sort_by);
+    $sql = $result['sql'];
+    $total_rows = $result['total_rows'];
+
+    $total_pages = ceil($total_rows / $rows_per_page);
 ?>
 
 <!-- Include jQuery and your pagination script -->
@@ -90,7 +116,7 @@
 <script>
     var currentPage = <?php echo $page; ?>;
     var totalPages = <?php echo $total_pages; ?>;
-    var sortBy = <?php echo $sort_by; ?>; // Store the sort_by parameter
+    var sortBy = <?php echo $sort_by; ?>;
 
     $(document).ready(function() {
         updatePagination();

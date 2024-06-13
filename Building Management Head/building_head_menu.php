@@ -40,13 +40,13 @@
                 <span>Please choose which parameter you want to view</span>
             </div>
             <div class="role-list-card">
-                <div class="role-button" onclick="location.href='air_quality.php';">
+                <div class="role-button" onclick="location.href='../Building Management Head/air quality/aq_dashboard.php';">
                     <a class="role-link">
                         <img src='../images/air_quality_icon.svg' class='role-icon'><br>
                         <div class="role-title">Air Quality</div>
                     </a>
                 </div>
-                <div class="role-button" onclick="location.href='energy_consumption.php';">
+                <div class="role-button" onclick="location.href='../Building Management Head/energy consumption/ec_dashboard.php';">
                     <a class="role-link">
                         <img src='../images/energy_consumption_icon.svg' class='role-icon'><br>
                         <div class="role-title">Energy Consumption</div>

@@ -173,6 +173,26 @@ body {
     transition: 0.2s color ease-in-out;
 }
 
+/*export data button*/
+.export-btn {
+    display: flex;
+    text-align: center;
+    background-color: transparent;
+    border: none;
+    text-decoration: none;
+    font-size: 1.2rem;
+}
+
+.fa-file-export {
+    margin-right: 7px;
+}
+
+.export-btn:hover {
+    cursor: pointer;
+    color: #E7AE41;
+    transition: 0.2s color ease-in-out;
+}
+
 /* white space styling */
 .whitespace{
     display: flex;

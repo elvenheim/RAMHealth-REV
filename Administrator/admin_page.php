@@ -50,12 +50,12 @@
             <div class="sorting-dropdown">
                 <label for="sort-by">Sort By:</label>
                 <select id="sort-by" onchange="sortTable()">
-                    <option value="user_status">Account Status</option>
                     <option value="employee_id">User ID</option>
                     <option value="employee_fullname">Full Name</option>
                     <option value="employee_email">Email Address</option>
                     <option value="role_names">Role</option>
                     <option value="employee_create_at">Created At</option>
+                    <option value="user_status">Account Status</option>
                 </select>
             </div>
             <a id="add-user-btn" class="add-btn" href="../Administrator/admin script/admin_add_user.php">

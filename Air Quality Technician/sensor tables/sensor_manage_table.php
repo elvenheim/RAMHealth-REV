@@ -1,37 +1,44 @@
 <?php
-    require_once('aq_sensor_connect.php');
+require_once('aq_sensor_connect.php');
 
-    $rows_per_page = 10;
-    $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-    $offset = ($page - 1) * $rows_per_page;
-    $floor_by = isset($_GET['floor_by']) ? $_GET['floor_by'] : 'none';
-    $sensor_by = isset($_GET['sensor_by']) ? $_GET['sensor_by'] : 'none';
+$rows_per_page = 10;
+$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+$offset = ($page - 1) * $rows_per_page;
+$floor_by = isset($_GET['floor_by']) ? $_GET['floor_by'] : 'none';
+$sensor_by = isset($_GET['sensor_by']) ? $_GET['sensor_by'] : 'none';
 
-    $conditions = [];
-    if ($floor_by) {
-        $conditions[] = "rn.bldg_floor = '$floor_by'";
-    }
-    if ($sensor_by) {
+$conditions = [];
+
+if ($floor_by !== 'none') {
+    $conditions[] = "rn.bldg_floor = '$floor_by'";
+}
+
+if ($sensor_by) {
+    if ($sensor_by === 'all') {
+        $conditions[] = "st.sensor_type_id IN (1, 2, 3, 4, 5)";
+    } else {
         $conditions[] = "st.sensor_type_id = '$sensor_by'";
     }
-    $where_clause = $conditions ? 'WHERE ' . implode(' AND ', $conditions) : '';
+}
 
-    $count_query = "SELECT COUNT(*) as count 
+$where_clause = $conditions ? 'WHERE ' . implode(' AND ', $conditions) : '';
+
+$count_query = "SELECT COUNT(*) as count 
                     FROM aq_sensor aq 
                     LEFT JOIN room_number rn ON aq.aq_sensor_room_num = rn.room_num 
                     LEFT JOIN sensor_type st ON aq.aq_sensor_type = st.sensor_type_id 
                     $where_clause";
-    $count_result = mysqli_query($con, $count_query);
+$count_result = mysqli_query($con, $count_query);
 
-    if (!$count_result) {
-        die("Query failed: " . mysqli_error($con));
-    }
+if (!$count_result) {
+    die("Query failed: " . mysqli_error($con));
+}
 
-    $count_row = mysqli_fetch_assoc($count_result);
-    $total_rows = $count_row['count'];
-    $total_pages = ceil($total_rows / $rows_per_page);
+$count_row = mysqli_fetch_assoc($count_result);
+$total_rows = $count_row['count'];
+$total_pages = ceil($total_rows / $rows_per_page);
 
-    $sql = "SELECT aq.*, st.sensor_type_name, rn.room_num, rn.bldg_floor
+$sql = "SELECT aq.*, st.sensor_type_name, rn.room_num, rn.bldg_floor
                 FROM aq_sensor aq
                 LEFT JOIN room_number rn ON aq.aq_sensor_room_num = rn.room_num
                 LEFT JOIN sensor_type st ON aq.aq_sensor_type = st.sensor_type_id
@@ -39,39 +46,39 @@
                 ORDER BY rn.room_num ASC, aq.aq_sensor_status DESC
                 LIMIT $offset, $rows_per_page";
 
-    $result_table = mysqli_query($con, $sql);
+$result_table = mysqli_query($con, $sql);
 
-    if (!$result_table) {
-        die("Query failed: " . mysqli_error($con));
-    }
+if (!$result_table) {
+    die("Query failed: " . mysqli_error($con));
+}
 
-    while ($row = mysqli_fetch_assoc($result_table)) {
-        echo "<tr" . ($row['aq_sensor_status'] == 0 ? " class=\"disabled\"" : '') . ">";
-        echo '<td style="width: 100px">' . $row['bldg_floor'] . "</td>";
-        echo "<td>" . $row['room_num'] . "</td>";
-        echo "<td>" . $row['aq_sensor_id'] . "</td>";
-        echo "<td>" . $row['aq_sensor_name'] . "</td>";
-        echo "<td>" . $row['sensor_type_name'] . "</td>";
-        echo "<td>" . $row['aq_sensor_added_at'] . "</td>";
-        echo "<td>";
-        echo '<form class="status-form">';
-        echo '<input type="hidden" name="aq_sensor_id" value="' . $row['aq_sensor_id'] . '">';
-        echo '<select name="aq_sensor_status" onchange="updateStatus(this.form);">';
-        echo '<option class="status-enabled" value="1"' . ($row['aq_sensor_status'] == 1 ? ' selected' : '') . '>Enabled</option>';
-        echo '<option class="status-disabled" value="0"' . ($row['aq_sensor_status'] == 0 ? ' selected' : '') . '>Disabled</option>';
-        echo '</select>';
-        echo '</form>';
-        echo "</td>";
-        echo '<td class="action-buttons">';
-        echo '<div>';
-        echo '<button class="edit-button" type="button" onclick="editRow(\'' . $row['aq_sensor_id'] . '\')"> 
+while ($row = mysqli_fetch_assoc($result_table)) {
+    echo "<tr" . ($row['aq_sensor_status'] == 0 ? " class=\"disabled\"" : '') . ">";
+    echo '<td style="width: 100px">' . $row['bldg_floor'] . "</td>";
+    echo "<td>" . $row['room_num'] . "</td>";
+    echo "<td>" . $row['aq_sensor_id'] . "</td>";
+    echo "<td>" . $row['aq_sensor_name'] . "</td>";
+    echo "<td>" . $row['sensor_type_name'] . "</td>";
+    echo "<td>" . $row['aq_sensor_added_at'] . "</td>";
+    echo "<td>";
+    echo '<form class="status-form">';
+    echo '<input type="hidden" name="aq_sensor_id" value="' . $row['aq_sensor_id'] . '">';
+    echo '<select name="aq_sensor_status" onchange="updateStatus(this.form);">';
+    echo '<option class="status-enabled" value="1"' . ($row['aq_sensor_status'] == 1 ? ' selected' : '') . '>Enabled</option>';
+    echo '<option class="status-disabled" value="0"' . ($row['aq_sensor_status'] == 0 ? ' selected' : '') . '>Disabled</option>';
+    echo '</select>';
+    echo '</form>';
+    echo "</td>";
+    echo '<td class="action-buttons">';
+    echo '<div>';
+    echo '<button class="edit-button" type="button" onclick="editRow(\'' . $row['aq_sensor_id'] . '\')"> 
                         <i class="fas fa-edit"></i></button>';
-        echo '<button class="delete-button" type="button" onclick="deleteRow(\'' . $row['aq_sensor_id'] . '\')"> 
+    echo '<button class="delete-button" type="button" onclick="deleteRow(\'' . $row['aq_sensor_id'] . '\')"> 
                         <i class="fas fa-trash"></i></button>';
-        echo '</div>';
-        echo "</td>";
-        echo "</tr>";
-    }
+    echo '</div>';
+    echo "</td>";
+    echo "</tr>";
+}
 ?>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -90,27 +97,29 @@
         var paginationHtml = '';
         var maxButtons = 5;
 
-        var startPage = Math.max(1, currentPage - Math.floor(maxButtons / 2));
-        var endPage = Math.min(totalPages, startPage + maxButtons - 1);
+        if (totalPages > 1) {
+            var startPage = Math.max(1, currentPage - Math.floor(maxButtons / 2));
+            var endPage = Math.min(totalPages, startPage + maxButtons - 1);
 
-        if (endPage - startPage + 1 < maxButtons) {
-            startPage = Math.max(1, endPage - maxButtons + 1);
+            if (endPage - startPage + 1 < maxButtons) {
+                startPage = Math.max(1, endPage - maxButtons + 1);
+            }
+
+            // Adjust start and end page based on the total number of pages
+            if (totalPages - endPage < Math.floor(maxButtons / 2)) {
+                startPage = Math.max(1, startPage - (Math.floor(maxButtons / 2) - (totalPages - endPage)));
+            }
+
+            // Previous button
+            paginationHtml += '<li class="page-item ' + (currentPage === 1 ? 'disabled' : '') + '"><a class="page-link previous" href="#" onclick="loadPage(' + (currentPage - 1) + ')">Previous</a></li>';
+
+            for (var i = startPage; i <= endPage; i++) {
+                paginationHtml += '<li class="page-item ' + (i === currentPage ? 'active' : '') + '"><a class="page-link number" href="#" onclick="loadPage(' + i + ')">' + i + '</a></li>';
+            }
+
+            // Next button
+            paginationHtml += '<li class="page-item ' + (currentPage === totalPages ? 'disabled' : '') + '"><a class="page-link next" href="#" onclick="loadPage(' + (currentPage + 1) + ')">Next</a></li>';
         }
-
-        // Adjust start and end page based on the total number of pages
-        if (totalPages - endPage < Math.floor(maxButtons / 2)) {
-            startPage = Math.max(1, startPage - (Math.floor(maxButtons / 2) - (totalPages - endPage)));
-        }
-
-        // Previous button
-        paginationHtml += '<li class="page-item ' + (currentPage === 1 ? 'disabled' : '') + '"><a class="page-link previous" href="#" onclick="loadPage(' + (currentPage - 1) + ')">Previous</a></li>';
-
-        for (var i = startPage; i <= endPage; i++) {
-            paginationHtml += '<li class="page-item ' + (i === currentPage ? 'active' : '') + '"><a class="page-link number" href="#" onclick="loadPage(' + i + ')">' + i + '</a></li>';
-        }
-
-        // Next button
-        paginationHtml += '<li class="page-item ' + (currentPage === totalPages ? 'disabled' : '') + '"><a class="page-link next" href="#" onclick="loadPage(' + (currentPage + 1) + ')">Next</a></li>';
 
         $('#pagination').html(paginationHtml);
     }
