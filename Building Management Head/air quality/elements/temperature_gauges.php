@@ -1,10 +1,9 @@
 <?php
-require_once('gauges_connect.php');
+require_once('dashboard_connect.php');
 
 // Initialize default values
-$pmOneValue = 0;
-$pmTwoFiveValue = 0;
-$pmTenValue = 0;
+$temperatureValue = 0;
+$heatIndexValue = 0;
 
 // Check if room_id is received via POST
 if (isset($_POST['room_num'])) {
@@ -21,15 +20,13 @@ if (isset($_POST['room_num'])) {
     if ($apfResult) {
         // Fetch data
         $apfData = mysqli_fetch_assoc($apfResult);
-        $pmOneValue = $apfData['pm_one'];
-        $pmTwoFiveValue = $apfData['pm_two_five'];
-        $pmTenValue = $apfData['pm_ten'];
+        $temperatureValue = $apfData['param_temp'];
+        $heatIndexValue = $apfData['heat_index'];
 
         // Prepare JSON response
         $response = array(
-            'pmOne' => $pmOneValue,
-            'pmTwoFive' => $pmTwoFiveValue,
-            'pmTen' => $pmTenValue
+            'paramTemperature' => $temperatureValue,
+            'paramHeatIndex' => $heatIndexValue,
         );
 
         // Output JSON
@@ -43,20 +40,19 @@ if (isset($_POST['room_num'])) {
 }
 ?>
 
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.3.0/raphael.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/justgage@1.4.0/dist/justgage.min.js"></script>
 <script type="text/javascript">
     // Function to draw JustGauge
-    function drawJustGauge(elementId, value, label) {
-        var gauge = new JustGage({
+    function drawJustGaugeTemp(elementId, value, label) {
+        var gaugeTemp = new JustGage({
             id: elementId,
             value: value,
             title: label,
-            symbol: ' µg/m³',
+            symbol: ' °C',
             min: 0,
-            max: 100,
+            max: 50,
             label: '',
             labelFontColor: '#000000',
             labelMinFontSize: 12,
@@ -65,30 +61,33 @@ if (isset($_POST['room_num'])) {
             counter: true,
             decimals: 2, // Adjust decimals as needed
             animationSpeed: 5000,
-            levelColors: ['#FF0000', '#F9C802', '#A9D70B'],
+            levelColors: ['#E7AE41', '#ff8200', '#ff1100'],
             pointer: true,
             pointerOptions: {
                 toplength: -15,
                 bottomlength: 10,
                 bottomwidth: 5,
                 color: '#E7AE41',
-                stroke: '#ffffff',
-                stroke_width: 0
-            },
+                stroke: '#343A40',
+                stroke_width: 0.5
+            }
         });
     }
 
     // On document load
     document.addEventListener('DOMContentLoaded', function() {
         // Draw gauges
-        drawJustGauge('gauge-div-pmOne', 0, 'Particulate Matter 1 (Latest)');
-        drawJustGauge('gauge-div-pmTwoFive', 0, 'Particulate Matter 2.5 (Latest)');
-        drawJustGauge('gauge-div-pmTen', 0, 'Particulate Matter 10 (Latest)');
+        drawJustGaugeTemp('gauge-div-temperature', 0, 'Temperature (Latest)');
+        drawJustGaugeTemp('gauge-div-heatIndex', 0, 'Heat Index (Latest)');
     });
 </script>
-<h3>Particulate Matter 1 (Latest)</h3>
-<div id="gauge-div-pmOne" style="width: 400px; height: 300px;"></div>
-<h3>Particulate Matter 2.5 (Latest)</h3>
-<div id="gauge-div-pmTwoFive" style="width: 400px; height: 300px;"></div>
-<h3>Particulate Matter 10 (Latest)</h3>
-<div id="gauge-div-pmTen" style="width: 400px; height: 300px;"></div>
+<div class="temperature-gauge-container">
+    <div>
+        <h3 style="margin-left: 30px;">Temperature (Latest)</h3>
+        <div id="gauge-div-temperature" style="width: 250px; height: 200px; margin-top: 10px"></div>
+    </div>
+    <div>
+        <h3 style="margin-left: 40px;">Heat Index (Latest)</h3>
+        <div id="gauge-div-heatIndex" style="width: 250px; height: 200px; margin-top: 10px"></div>
+    </div>
+</div>

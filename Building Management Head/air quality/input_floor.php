@@ -40,7 +40,7 @@ if (!$roomResult) {
 
 <div id="facility-dropdown" class="sorting-dropdown">
     <label for="facility-sort">Facility:</label>
-    <select id="facility-sort" onchange="refreshGauges(this.value)">
+    <select id="facility-sort" onchange="refreshElements(this.value)">
         <option value="">Select Facility</option>
         <!-- Options will be populated by AJAX -->
     </select>
@@ -48,10 +48,11 @@ if (!$roomResult) {
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-    function refreshGauges(roomNumber) {
+    function refreshElements(roomNumber) {
+        // pm gauges ajax callback
         $.ajax({
             type: 'POST',
-            url: 'gauges/pm_gauges.php',
+            url: 'elements/pm_gauges.php',
             data: {
                 room_num: roomNumber
             },
@@ -60,7 +61,7 @@ if (!$roomResult) {
                 $('#gauge-div-pmOne').empty();
                 $('#gauge-div-pmTwoFive').empty();
                 $('#gauge-div-pmTen').empty();
-                
+
                 // Update each gauge with respective data
                 drawJustGauge('gauge-div-pmOne', response.pmOne, 'Particulate Matter 1 (Latest)');
                 drawJustGauge('gauge-div-pmTwoFive', response.pmTwoFive, 'Particulate Matter 2.5 (Latest)');
@@ -70,5 +71,107 @@ if (!$roomResult) {
                 console.error('AJAX Error:', error);
             }
         });
+
+        // temperature gauges ajax callback
+        $.ajax({
+            type: 'POST',
+            url: 'elements/temperature_gauges.php',
+            data: {
+                room_num: roomNumber
+            },
+            success: function(response) {
+                // Clear existing gauges
+                $('#gauge-div-temperature').empty();
+                $('#gauge-div-heatIndex').empty();
+
+                drawJustGaugeTemp('gauge-div-temperature', response.paramTemperature, 'Temperature (Latest)');
+                drawJustGaugeTemp('gauge-div-heatIndex', response.paramHeatIndex, 'Heat Index (Latest)');
+            },
+            error: function(xhr, status, error) {
+                console.error('AJAX Error:', error);
+            }
+        });
+
+        // co2 and relative humidity gauges ajax callback
+        $.ajax({
+            type: 'POST',
+            url: 'elements/others.php',
+            data: {
+                room_num: roomNumber
+            },
+            success: function(response) {
+                // Clear existing gauges
+                $('#gauge-div-co2').empty();
+                $('#gauge-div-humidity').empty();
+
+                drawJustGaugeCo2('gauge-div-co2', response.paramCo2Level, 'Co2 Level (Latest)');
+                drawJustGaugeHumidity('gauge-div-humidity', response.paramHumidity, 'Relative Humidity (Latest)');
+            },
+            error: function(xhr, status, error) {
+                console.error('AJAX Error:', error);
+            }
+        });
+
+        // pm five minutes ajax callback
+        $.ajax({
+            type: 'POST',
+            url: 'elements/pm_charts_five.php',
+            data: {
+                room_num: roomNumber
+            },
+            success: function(response) {
+                // Process data for line chart
+                var labels = response.dataPoints.map(function(point) {
+                    return point.formatted_time;
+                });
+                var pmOneData = response.dataPoints.map(function(point) {
+                    return point.pm_one;
+                });
+                var pmTwoFiveData = response.dataPoints.map(function(point) {
+                    return point.pm_two_five;
+                });
+                var pmTenData = response.dataPoints.map(function(point) {
+                    return point.pm_ten;
+                });
+
+                // Update line chart
+                initializeChart(labels, pmOneData, pmTwoFiveData, pmTenData);
+            },
+            error: function(xhr, status, error) {
+                console.error('AJAX Error:', error);
+            }
+        });
+
+        // pm daily chart ajax callback
+        $.ajax({
+            type: 'POST',
+            url: 'elements/pm_charts_daily.php',
+            data: {
+                room_num: roomNumber
+            },
+            success: function(response) {
+                // Process data for line chart
+                var labelsDaily = response.dataPoints.map(function(point) {
+                    return point.formatted_date;
+                });
+                var pmOneDataDaily = response.dataPoints.map(function(point) {
+                    return point.avg_pm_one;
+                });
+                var pmTwoFiveDataDaily = response.dataPoints.map(function(point) {
+                    return point.avg_pm_two_five;
+                });
+                var pmTenDataDaily = response.dataPoints.map(function(point) {
+                    return point.avg_pm_ten;
+                });
+
+                // Update line chart
+                initializeDailyChart(labelsDaily, pmOneDataDaily, pmTwoFiveDataDaily, pmTenDataDaily);
+            },
+            error: function(xhr, status, error) {
+                console.error('AJAX Error:', error);
+            }
+        });
+
+        // temperature gauges ajax callback
     }
 </script>

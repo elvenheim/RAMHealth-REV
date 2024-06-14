@@ -64,8 +64,15 @@
                     <option value="date_acquired">Date Acquired</option>
                 </select>
             </div>
+            <div class="sorting-dropdown" style="margin-left: 20px;">
+                <label for="table-select">Table:</label>
+                <select id="table-select" onchange="changeTable()">
+                    <option value="aq_param_five">5-Minutes Interval</option>
+                    <option value="aq_param_daily">Daily Interval</option>
+                </select>
+            </div>
             <form class="import-table" method="POST" enctype="multipart/form-data" action="../scripts/import_table.php" id="importForm">
-                <label class="import-btn" style="margin-right: 20px; margin-left: 1050px;">
+                <label class="import-btn" style="margin-right: 20px; margin-left: 820px;">
                     <span class="fas fa-file-import"></span>
                     <span style="display: inline-block;">Import</span>
                     <input type="hidden" id="table_name" name="table_name">
@@ -77,7 +84,7 @@
                     <span class="fas fa-file-export"></span>
                     <span style="display: inline-block;">Export</span>
                 </label>
-                <input type="hidden" id="table_name" name="table_name" value="aq_param_five">
+                <input type="hidden" id="table_export" name="table_name" value="aq_param_five">
                 <button type="submit" id="exportBtn" style="display: none;"></button>
             </form>
         </div>
@@ -87,20 +94,17 @@
                     <tr>
                         <th>Facility</th>
                         <th>CO2 Level (ppm)</th>
-                        <th>CO Level (ppm)</th>
                         <th>Relative Humidity (%)</th>
-                        <th>Ozone Level (ppm)</th>
-                        <th>PM1 (ug/m3)</th>
-                        <th>PM2.5 (ug/m3)</th>
-                        <th>PM10 (ug/m3)</th>
-                        <th>Temperature</th>
-                        <th>TVOC Level (ppm)</th>
+                        <th>PM1 (µg/m³)</th>
+                        <th>PM2.5 (µg/m³)</th>
+                        <th>PM10 (µg/m³)</th>
+                        <th>Temperature (°C)</th>
                         <th>Heat Index (°C)</th>
                         <th>Date Acquired</th>
                     </tr>
                 </thead>
                 <tbody id="aq-param-table">
-                    <?php include '../Air Quality Technician/aq tech script/aq_param_table.php' ?>
+                    <?php include '../Air Quality Technician/aq tech script/aq_param_table_five.php' ?>
                 </tbody>
             </table>
             <ul id="pagination" class="pagination">

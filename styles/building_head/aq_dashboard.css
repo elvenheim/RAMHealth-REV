@@ -35,10 +35,82 @@
 }
 
 .right-dashboard{
+    height: 750px;
+    width: 500px;
+}
+
+.right-dashboard-one{
     border: 1px solid black;
     border-radius: 5px;
-    height: 750px;
+    height: 370px;
+    width: 500px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+    margin-bottom: 10px;
+}
+
+.right-dashboard-two{
+    border: 1px solid black;
+    border-radius: 5px;
+    height: 370px;
     width: 500px;
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
 }
 
+.pm-gauge-container {
+    margin-top: 15px;
+    height: 750px;
+    /* Fixed height for scrollable container */
+    width: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow: hidden;
+}
+
+.pm-gauge-container>div {
+    margin-top: 20px;
+    width: 400px;
+    height: 200px;
+}
+
+.line-chart-container{
+    height: 750px;
+    /* Fixed height for scrollable container */
+    width: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow: hidden;
+}
+
+.temperature-gauge-container {
+    margin-top: -5px;
+    height: auto;
+    /* Fixed height for scrollable container */
+    width: auto;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    overflow: hidden;
+}
+
+.temperature-gauge-container h3{
+    position: absolute;
+    margin-top: 10px;
+}
+
+.others-gauge-container {
+    margin-top: -5px;
+    height: auto;
+    /* Fixed height for scrollable container */
+    width: auto;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    overflow: hidden;
+}
+
+.others-gauge-container h3{
+    position: absolute;
+    margin-top: -20px;
+}

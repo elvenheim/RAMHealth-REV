@@ -13,7 +13,6 @@
     <link rel="stylesheet" href="../../styles/homepage/homepage.css">
     <link rel="stylesheet" href="../../styles/building_head/aq_dashboard.css">
     <script src="../../scripts/logout.js"></script>
-    <script src=""></script>
 </head>
 
 <body>
@@ -54,12 +53,22 @@
         </div>
         <div class="dashboard-content">
             <div class="left-dashboard">
-                <div class="pm-gauge-container">
-                    <?php require_once('gauges/pm_gauges.php'); ?>
+                <?php require_once('elements/pm_gauges.php'); ?>
+            </div>
+            <div class="middle-dashboard">
+                <div class="line-chart-container" style="width: 800px; margin: 20px auto; margin-top: 8px;">
+                    <?php require_once('elements/pm_charts_five.php'); ?>
+                    <?php require_once('elements/pm_charts_daily.php'); ?>
                 </div>
             </div>
-            <div class="middle-dashboard"></div>
-            <div class="right-dashboard"></div>
+            <div class="right-dashboard">
+                <div class="right-dashboard-one">
+                    <?php require_once('elements/temperature_gauges.php'); ?>
+                    <?php require_once('elements/others.php'); ?>
+                </div>
+                <div class="right-dashboard-two">
+                </div>
+            </div>
         </div>
     </div>
 </body>

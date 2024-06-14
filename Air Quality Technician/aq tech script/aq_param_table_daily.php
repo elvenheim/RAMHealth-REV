@@ -1,42 +1,39 @@
 <?php
-    require_once('aq_param_connect.php');
+require_once('aq_param_connect.php');
 
-    $rows_per_page = 10;
-    $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-    $offset = ($page - 1) * $rows_per_page;
-    $sort_by = isset($_GET['sort_by']) ? $_GET['sort_by'] : 'room_id'; // Default sorting column
-    $search_term = isset($_GET['search']) ? $_GET['search'] : '';
+$rows_per_page = 10;
+$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+$offset = ($page - 1) * $rows_per_page;
+$sort_by = isset($_GET['sort_by']) ? $_GET['sort_by'] : 'room_id'; // Default sorting column
+$search_term = isset($_GET['search']) ? $_GET['search'] : '';
 
-    $count_query = "SELECT COUNT(*) as count FROM aq_param_five WHERE room_id LIKE '%$search_term%'";
-    $count_result = mysqli_query($con, $count_query);
-    $count_row = mysqli_fetch_assoc($count_result);
-    $total_rows = $count_row['count'];
+$count_query = "SELECT COUNT(*) as count FROM aq_param_daily WHERE room_id LIKE '%$search_term%'";
+$count_result = mysqli_query($con, $count_query);
+$count_row = mysqli_fetch_assoc($count_result);
+$total_rows = $count_row['count'];
 
-    $total_pages = ceil($total_rows / $rows_per_page);
+$total_pages = ceil($total_rows / $rows_per_page);
 
-    $sql = "SELECT aqpf.*
-                    FROM aq_param_five aqpf
+$sql = "SELECT aqpd.*
+                    FROM aq_param_daily aqpd
                     WHERE room_id LIKE '%$search_term%'
                     ORDER BY $sort_by ASC
                     LIMIT $offset, $rows_per_page";
-    $result_table = mysqli_query($con, $sql);
+$result_table = mysqli_query($con, $sql);
 
-    while ($row = mysqli_fetch_assoc($result_table)) {
-        echo "<tr>";
-        echo "<td>" . $row['room_id'] . "</td>";
-        echo "<td>" . $row['co2_level'] . "</td>";
-        echo "<td>" . $row['co_level'] . "</td>";
-        echo "<td>" . $row['rel_humid'] . "</td>";
-        echo "<td>" . $row['ozone_level'] . "</td>";
-        echo "<td>" . $row['pm_one'] . "</td>";
-        echo "<td>" . $row['pm_two_five'] . "</td>";
-        echo "<td>" . $row['pm_ten'] . "</td>";
-        echo "<td>" . $row['param_temp'] . "</td>";
-        echo "<td>" . $row['param_tvoc'] . "</td>";
-        echo "<td>" . $row['heat_index'] . "</td>";
-        echo "<td>" . $row['date_acquired'] . "</td>";
-        echo "</tr>";
-    }
+while ($row = mysqli_fetch_assoc($result_table)) {
+    echo "<tr>";
+    echo "<td>" . $row['room_id'] . "</td>";
+    echo "<td>" . $row['co2_level'] . "</td>";
+    echo "<td>" . $row['rel_humid'] . "</td>";
+    echo "<td>" . $row['pm_one'] . "</td>";
+    echo "<td>" . $row['pm_two_five'] . "</td>";
+    echo "<td>" . $row['pm_ten'] . "</td>";
+    echo "<td>" . $row['param_temp'] . "</td>";
+    echo "<td>" . $row['heat_index'] . "</td>";
+    echo "<td>" . $row['date_acquired'] . "</td>";
+    echo "</tr>";
+}
 ?>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -102,7 +99,7 @@
 
     function loadTableContent(page, sortBy, searchTerm) {
         $.ajax({
-            url: '../Air Quality Technician/aq tech script/aq_param_table.php',
+            url: '../Air Quality Technician/aq tech script/aq_param_table_daily.php',
             type: 'GET',
             data: {
                 page: page,
@@ -129,7 +126,7 @@
         var searchTerm = $('#search-input').val(); // Get the search term from the input
 
         $.ajax({
-            url: '../Air Quality Technician/aq tech script/aq_param_table.php',
+            url: '../Air Quality Technician/aq tech script/aq_param_table_daily.php',
             type: 'GET',
             data: {
                 page: currentPage,

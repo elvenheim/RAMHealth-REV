@@ -15,7 +15,7 @@
         }
 
         echo '<label for="facility-sort">Facility:</label>';
-        echo '<select id="facility-sort" onchange="refreshGauges(this.value)">';
+        echo '<select id="facility-sort" onchange="refreshElements(this.value)">';
         echo '<option value="">Select Facility</option>';
         while ($row = mysqli_fetch_assoc($facilityResult)) {
             echo '<option value="' . $row['room_num'] . '">' . $row['room_num'] . '</option>';
