@@ -46,7 +46,7 @@
                 <?php include '../scripts/role_cards.php' ?>
             </div>
             <div class="tutorial-container">
-                <button class="tutorial-button" type="button" onclick="show_tutorial()">TUTORIAL</button>
+                <button class="tutorial-button" type="button" onclick="show_tutorial()" disabled>TUTORIAL</button>
                 <div class="tutorial-background"></div>
                 <div class="tutorial-card">
                     <div class="tutorial-header">

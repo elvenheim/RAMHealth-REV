@@ -65,14 +65,14 @@
                 </select>
             </div>
             <div class="sorting-dropdown" style="margin-left: 20px;">
-                <label for="table-select">Table:</label>
+                <label for="table-select">Interval:</label>
                 <select id="table-select" onchange="changeTable()">
-                    <option value="aq_param_five">5-Minutes Interval</option>
-                    <option value="aq_param_daily">Daily Interval</option>
+                    <option value="aq_param_five">5-Minutes</option>
+                    <option value="aq_param_daily">Daily</option>
                 </select>
             </div>
             <form class="import-table" method="POST" enctype="multipart/form-data" action="../scripts/import_table.php" id="importForm">
-                <label class="import-btn" style="margin-right: 20px; margin-left: 820px;">
+                <label class="import-btn" style="margin-right: 20px; margin-left: 805px;">
                     <span class="fas fa-file-import"></span>
                     <span style="display: inline-block;">Import</span>
                     <input type="hidden" id="table_name" name="table_name">

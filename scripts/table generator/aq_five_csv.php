@@ -2,11 +2,14 @@
     // Generate randomized data for indoor_temp table
     $csvData = "room_id,co2_level,co_level,rel_humid,ozone_level,pm_one,pm_two_five,pm_ten,param_temp,param_tvoc,heat_index,date_acquired" . PHP_EOL;
 
-    $startDate = strtotime('2024-03-23 15:05:00');
-    $endDate = strtotime('2024-04-07 15:10:00');
+    $startDate = strtotime('2024-04-07 15:05:00'); // Start at 15:05:00
+    $endDate = strtotime('2024-05-12 15:10:00');   // End at 15:10:00
 
-    $startRoom = 802;
+    $startRoom = 801;
     $endRoom = 814;
+
+    // Interval between timestamps (in seconds), set to 5 minutes (300 seconds)
+    $interval = 300;
 
     // Generate data for 1000 records
     for ($i = 0; $i < 1000; $i++) {
@@ -21,7 +24,9 @@
         $param_temp = rand(18, 35);
         $param_tvoc = rand(0, 30);
         $heat_index = rand(20, 35);
-        $date_acquired = date('Y-m-d H:i:s', rand($startDate, $endDate));
+        
+        // Adjust the date acquired
+        $date_acquired = date('Y-m-d H:i:s', $startDate + ($i * $interval));
 
         // Append data row to CSV string
         $csvData .= "$room_id,$co2_level,$co_level,$rel_humid,$ozone_level,$pm_one,$pm_two_five,$pm_ten,$param_temp,$param_tvoc,$heat_index,$date_acquired" . PHP_EOL;
@@ -34,5 +39,5 @@
     fclose($file);
 
     // Provide download link to the generated CSV file
-    echo "Randomized data has been exported to <a href='$fileName' download>CSV file</a>.";
+    echo "Randomized Air Quality 5-minute interval data has been exported to <a href='$fileName' download>CSV file</a>.";
 ?>

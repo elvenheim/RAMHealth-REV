@@ -14,11 +14,11 @@ if (isset($_POST['room_num'])) {
                             AVG(apd.pm_one) AS avg_pm_one, 
                             AVG(apd.pm_two_five) AS avg_pm_two_five, 
                             AVG(apd.pm_ten) AS avg_pm_ten 
-                     FROM aq_param_daily apd 
-                     WHERE room_id = '$roomId' 
-                     GROUP BY formatted_date 
-                     ORDER BY formatted_date DESC 
-                     LIMIT 10";
+                    FROM aq_param_daily apd 
+                    WHERE room_id = '$roomId' 
+                    GROUP BY formatted_date 
+                    ORDER BY formatted_date DESC 
+                    LIMIT 10";
 
     // Execute query
     $apdResult = mysqli_query($con, $apdQuery);

@@ -8,21 +8,22 @@
     margin-top: 50px;
     box-shadow: none;
     border: 1px solid #000;
-    background-color: #007BFF;
+    /* background-color: #007BFF; */
+    background-color: #555555;
     color: #fff;
     border-radius: 5px;
     width: 150px;
     height: 50px;
-    cursor: pointer;
+    /* cursor: pointer; */
     font-size: 1.5rem;
     font-weight: bold;
     align-items: center;
 }
 
-.tutorial-button:hover{
+/* .tutorial-button:hover{
     background-color: #E7AE41;
     transition: 0.2s background-color ease-in-out;
-}
+} */
 
 .tutorial-background {
     top: 0;

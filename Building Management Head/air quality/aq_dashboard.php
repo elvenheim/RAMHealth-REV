@@ -42,14 +42,6 @@
                     <span class="fas fa-arrow-left" style="margin-top: 1.1px; margin-left: 10px; margin-right: 5px;"></span> Go Back </button>
             </div>
             <?php require_once('input_floor.php'); ?>
-            <form class="export-table" method="POST" action="../../scripts/export_table.php" id="exportForm" style="margin-left: 15px;">
-                <label class="export-btn" for="exportBtn">
-                    <span class="fas fa-file-export"></span>
-                    <span style="display: inline-block;">Export Data</span>
-                </label>
-                <input type="hidden" id="table_name" name="table_name" value="aq_param_five">
-                <button type="submit" id="exportBtn" style="display: none;"></button>
-            </form>
         </div>
         <div class="dashboard-content">
             <div class="left-dashboard">
@@ -67,6 +59,31 @@
                     <?php require_once('elements/others.php'); ?>
                 </div>
                 <div class="right-dashboard-two">
+                    <div class="rd-header">
+                        <h3>Latest Data Summary</h3>
+                    </div>
+                    <div class="rd-selection">
+                        <div class="sorting-dropdown" style="margin-left: 40px; margin-right: 20px;">
+                            <label for="data-select">Interval:</label>
+                            <select id="data-select" onchange="chooseData()">
+                                <option value=" " disabled selected>Select Interval</option>
+                                <option value="aq_param_five">5-Minutes</option>
+                                <option value="aq_param_daily">Daily</option>
+                            </select>
+                        </div>
+                        <form class="export-table" method="POST" action="elements/aq_export.php" id="exportForm">
+                            <label class="export-btn" for="exportBtn">
+                                <span class="fas fa-file-export"></span>
+                                <span style="display: inline-block;">Export</span>
+                            </label>
+                            <input type="hidden" id="table_export" name="table_name" value="aq_param_five">
+                            <input type="hidden" id="table_room" name="table_room" value="0">
+                            <button type="submit" id="exportBtn" style="display: none;"></button>
+                        </form>
+                    </div>
+                    <div id="data-summary" class="data-summary-content">
+                        <?php require_once('elements/aq_param_summary.php'); ?>
+                    </div>
                 </div>
             </div>
         </div>
@@ -74,3 +91,34 @@
 </body>
 
 </html>
+
+<script>
+    // Function for choosing a data
+    function chooseData() {
+        var selectedData = document.getElementById('data-select').value;
+
+        document.getElementById("table_export").value = selectedData;
+
+        var selectedInterval = document.getElementById('table_export').value;
+        var selectedRoom = document.getElementById('table_room').value;
+
+        document.getElementById("selected_interval").value = selectedInterval;
+
+        // aq parameter summary ajax callback
+        $.ajax({
+            type: 'POST',
+            url: 'elements/aq_param_summary.php',
+            data: {
+                table_interval: selectedInterval,
+                selected_room: selectedRoom
+            },
+            success: function(response) {
+                // Update the content of the data-summary-content div with the response
+                document.getElementById('data-summary').innerHTML = response;
+            },
+            error: function(xhr, status, error) {
+                console.error('AJAX Error:', error);
+            }
+        });
+    }
+</script>

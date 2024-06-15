@@ -41,10 +41,12 @@ if (!$roomResult) {
 <div id="facility-dropdown" class="sorting-dropdown">
     <label for="facility-sort">Facility:</label>
     <select id="facility-sort" onchange="refreshElements(this.value)">
-        <option value="">Select Facility</option>
+        <option value=" " disabled selected>Select Facility</option>
         <!-- Options will be populated by AJAX -->
     </select>
 </div>
+
+<input type="hidden" id="selected_interval" value="">
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
@@ -172,6 +174,40 @@ if (!$roomResult) {
             }
         });
 
-        // temperature gauges ajax callback
+        // ajax post for aq export csv file
+        $.ajax({
+            type: 'POST',
+            url: 'aq_dashboard.php',
+            data: {
+                room_num: roomNumber
+            },
+            success: function(response) {
+                // Handle the response if needed
+                document.getElementById('table_room').value = roomNumber;
+            },
+            error: function(xhr, status, error) {
+                console.error('AJAX Error:', error);
+            }
+        });
+
+        var selectedIntervalFacility = document.getElementById('selected_interval').value;
+
+        // aq parameter summary ajax callback
+        $.ajax({
+            type: 'POST',
+            url: 'elements/aq_param_summary.php',
+            data: {
+                table_interval: selectedIntervalFacility,
+                selected_room: roomNumber
+            },
+            success: function(response) {
+                // Update the content of the data-summary-content div with the response
+                document.getElementById('data-summary').innerHTML = response;
+            },
+            error: function(xhr, status, error) {
+                console.error('AJAX Error:', error);
+            }
+        });
+
     }
 </script>

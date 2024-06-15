@@ -2,8 +2,8 @@
     // Generate randomized data for indoor_temp table
     $csvData = "room_id,co2_level,co_level,rel_humid,ozone_level,pm_one,pm_two_five,pm_ten,param_temp,param_tvoc,heat_index,date_acquired" . PHP_EOL;
 
-    $startDate = strtotime('2024-03-23');
-    $endDate = strtotime('2024-04-07');
+    $startDate = strtotime('2024-04-07');
+    $endDate = strtotime('2024-05-12');
 
     $startRoom = 801;
     $endRoom = 814;
@@ -34,5 +34,5 @@
     fclose($file);
 
     // Provide download link to the generated CSV file
-    echo "Randomized data has been exported to <a href='$fileName' download>CSV file</a>.";
+    echo "Randomized Air Quality daily interval data has been exported to <a href='$fileName' download>CSV file</a>.";
 ?>
