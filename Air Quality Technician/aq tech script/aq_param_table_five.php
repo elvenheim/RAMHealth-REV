@@ -5,9 +5,9 @@ $rows_per_page = 10;
 $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 $offset = ($page - 1) * $rows_per_page;
 $sort_by = isset($_GET['sort_by']) ? $_GET['sort_by'] : 'room_id'; // Default sorting column
-$search_term = isset($_GET['search']) ? $_GET['search'] : '';
+$room_id = isset($_GET['room_id']) ? $_GET['room_id'] : '';
 
-$count_query = "SELECT COUNT(*) as count FROM aq_param_five WHERE room_id LIKE '%$search_term%'";
+$count_query = "SELECT COUNT(*) as count FROM aq_param_five";
 $count_result = mysqli_query($con, $count_query);
 $count_row = mysqli_fetch_assoc($count_result);
 $total_rows = $count_row['count'];
@@ -15,10 +15,10 @@ $total_rows = $count_row['count'];
 $total_pages = ceil($total_rows / $rows_per_page);
 
 $sql = "SELECT aqpf.*
-                    FROM aq_param_five aqpf
-                    WHERE room_id LIKE '%$search_term%'
-                    ORDER BY $sort_by ASC
-                    LIMIT $offset, $rows_per_page";
+        FROM aq_param_five aqpf
+        WHERE room_id = '$room_id'
+        ORDER BY $sort_by ASC
+        LIMIT $offset, $rows_per_page";
 $result_table = mysqli_query($con, $sql);
 
 while ($row = mysqli_fetch_assoc($result_table)) {
@@ -42,6 +42,7 @@ while ($row = mysqli_fetch_assoc($result_table)) {
     var currentPage = <?php echo $page; ?>;
     var totalPages = <?php echo $total_pages; ?>;
     var sortBy = '<?php echo $sort_by; ?>'; // Store the sort_by parameter
+    var selectedRoom = '<?php echo $room_id; ?>' // Store the selected room
 
     $(document).ready(function() {
         updatePagination();
@@ -76,35 +77,31 @@ while ($row = mysqli_fetch_assoc($result_table)) {
         $('#pagination').html(paginationHtml);
     }
 
-    function loadPage(page) {
+    function loadPage(page, sortBy, selectedRoom) {
         if (page < 1 || page > totalPages || page === currentPage) {
             return;
         }
 
         sortBy = $('#sort-by').val(); // Get the sort_by value from the dropdown
-        var searchTerm = $('#search-input').val(); // Get the search term from the input
+        selectedRoom = $('#facility-sort').val(); // Get the selected room value
+
 
         currentPage = page;
         updatePagination();
-        loadTableContent(page, sortBy, searchTerm); // Pass the search term
+        loadTableContent(page, sortBy, selectedRoom);
 
         // Prevent default behavior of anchor links
         event.preventDefault();
     }
 
-    function searchTable() {
-        var searchTerm = $('#search-input').val(); // Get the search term from the input
-        loadTableContent(currentPage, sortBy, searchTerm); // Pass the search term to the loadTableContent function
-    }
-
-    function loadTableContent(page, sortBy, searchTerm) {
+    function loadTableContent(page, sortBy, selectedRoom) {
         $.ajax({
             url: '../Air Quality Technician/aq tech script/aq_param_table_five.php',
             type: 'GET',
             data: {
                 page: page,
                 sort_by: sortBy,
-                search: searchTerm // Include the search term in the request
+                room_id: selectedRoom
             },
             success: function(data) {
                 $('#aq-param-table').fadeTo('fast', 0.3, function() {
@@ -123,7 +120,6 @@ while ($row = mysqli_fetch_assoc($result_table)) {
 
     function sortTable() {
         sortBy = $('#sort-by').val(); // Update the sort_by value
-        var searchTerm = $('#search-input').val(); // Get the search term from the input
 
         $.ajax({
             url: '../Air Quality Technician/aq tech script/aq_param_table_five.php',
@@ -131,7 +127,32 @@ while ($row = mysqli_fetch_assoc($result_table)) {
             data: {
                 page: currentPage,
                 sort_by: sortBy,
-                search: searchTerm // Include the search term in the request
+                room_id: selectedRoom
+            },
+            success: function(data) {
+                $('#aq-param-table').fadeTo('fast', 0.3, function() {
+                    $(this).html(data).fadeTo('fast', 1, function() {
+                        $(this).css('visibility', 'visible');
+                    });
+                });
+            },
+            error: function() {
+                alert('Error sorting table content.');
+            }
+        });
+    }
+
+    function selectRoom() {
+        selectedRoom = $('#facility-sort').val(); // Update the sort_by value
+
+        console.log(selectedRoom);
+        $.ajax({
+            url: '../Air Quality Technician/aq tech script/aq_param_table_five.php',
+            type: 'GET',
+            data: {
+                page: currentPage,
+                sort_by: sortBy,
+                room_id: selectedRoom
             },
             success: function(data) {
                 $('#aq-param-table').fadeTo('fast', 0.3, function() {

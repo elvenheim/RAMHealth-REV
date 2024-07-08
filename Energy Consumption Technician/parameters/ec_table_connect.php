@@ -23,11 +23,4 @@
 
     // Now $con1 is the connection to ramhealth database
     // And $con2 is the connection to ramhealth_energy database
-
-    // Example usage:
-    // You can use $con1 or $con2 in your MySQLi queries as needed
-
-    // Close connections when done to free up resources
-    // mysqli_close($con1);
-    // mysqli_close($con2);
 ?>

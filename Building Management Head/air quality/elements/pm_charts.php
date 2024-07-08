@@ -4,29 +4,47 @@ require_once('dashboard_connect.php');
 // Initialize default values
 $dataPoints = [];
 
-// Check if room_id is received via POST
-if (isset($_POST['room_num'])) {
-    // Sanitize input (optional but recommended)
+// Check if room_id and interval are received via POST
+if (isset($_POST['room_num']) && isset($_POST['interval'])) {
+    // Sanitize input
     $roomId = mysqli_real_escape_string($con, $_POST['room_num']);
+    $interval = mysqli_real_escape_string($con, $_POST['interval']);
 
-    // Construct SQL query to get daily data
-    $apdQuery = "SELECT DATE_FORMAT(apd.date_acquired, '%Y-%m-%d') AS formatted_date, 
-                            AVG(apd.pm_one) AS avg_pm_one, 
-                            AVG(apd.pm_two_five) AS avg_pm_two_five, 
-                            AVG(apd.pm_ten) AS avg_pm_ten 
-                    FROM aq_param_daily apd 
-                    WHERE room_id = '$roomId' 
-                    GROUP BY formatted_date 
-                    ORDER BY formatted_date DESC 
-                    LIMIT 10";
+    // Construct SQL query based on the interval
+    if ($interval == 'aq_param_five') {
+        // Query for five minutes interval
+        $query = "SELECT DATE_FORMAT(apf.date_acquired, '%H:%i') AS formatted_time, 
+                          apf.pm_one, apf.pm_two_five, apf.pm_ten
+                  FROM aq_param_five apf 
+                  WHERE room_id = '$roomId' 
+                  ORDER BY date_acquired DESC 
+                  LIMIT 5";
+    } elseif ($interval == 'aq_param_daily') {
+        // Query for daily interval
+        $query = "SELECT DATE_FORMAT(apd.date_acquired, '%m-%d') AS formatted_time, 
+                          apd.pm_one, apd.pm_two_five, apd.pm_ten
+                  FROM aq_param_daily apd 
+                  WHERE room_id = '$roomId'
+                  GROUP BY date_acquired
+                  ORDER BY date_acquired DESC 
+                  LIMIT 5";
+    } else {
+        // Default to five minutes interval
+        $query = "SELECT DATE_FORMAT(apf.date_acquired, '%H:%i') AS formatted_time, 
+                          apf.pm_one, apf.pm_two_five, apf.pm_ten
+                  FROM aq_param_five apf 
+                  WHERE room_id = '$roomId' 
+                  ORDER BY date_acquired DESC 
+                  LIMIT 5";
+    }
 
     // Execute query
-    $apdResult = mysqli_query($con, $apdQuery);
+    $result = mysqli_query($con, $query);
 
     // Check if query executed successfully
-    if ($apdResult) {
+    if ($result) {
         // Fetch data
-        while ($row = mysqli_fetch_assoc($apdResult)) {
+        while ($row = mysqli_fetch_assoc($result)) {
             $dataPoints[] = $row;
         }
 
@@ -37,7 +55,7 @@ if (isset($_POST['room_num'])) {
         $response = [
             'dataPoints' => $dataPoints
         ];
-
+        
         // Output JSON
         header('Content-Type: application/json');
         echo json_encode($response);
@@ -49,40 +67,39 @@ if (isset($_POST['room_num'])) {
 }
 ?>
 
-
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-    var myChartDaily = null;
+    var myPMChart = null;
     // Function to update line chart
-    function initializeDailyChart(labelsDaily, pmOneDataDaily, pmTwoFiveDataDaily, pmTenDataDaily) {
-        var ctxDaily = document.getElementById('lineDailyChart').getContext('2d');
+    function initializePMChart(labelsPM, pmOneData, pmTwoFiveData, pmTenData) {
+        var ctx = document.getElementById('linePMChart').getContext('2d');
 
         // Check if there's an existing chart instance and destroy it
-        if (myChartDaily) {
-            myChartDaily.destroy();
+        if (myPMChart) {
+            myPMChart.destroy();
         }
 
-        myChartDaily = new Chart(ctxDaily, {
+        myPMChart = new Chart(ctx, {
             type: 'line',
             data: {
-                labels: labelsDaily,
+                labels: labelsPM,
                 datasets: [{
                         label: 'PM 1',
-                        data: pmOneDataDaily,
+                        data: pmOneData,
                         borderColor: 'blue',
                         backgroundColor: 'rgba(0, 123, 255, 0.2)',
                         borderWidth: 1
                     },
                     {
                         label: 'PM 2.5',
-                        data: pmTwoFiveDataDaily,
+                        data: pmTwoFiveData,
                         borderColor: 'orange',
                         backgroundColor: 'rgba(255, 187, 16, 0.2)',
                         borderWidth: 1
                     },
                     {
                         label: 'PM 10',
-                        data: pmTenDataDaily,
+                        data: pmTenData,
                         borderColor: 'red',
                         backgroundColor: 'rgba(207, 32, 32, 0.2)',
                         borderWidth: 1
@@ -105,7 +122,7 @@ if (isset($_POST['room_num'])) {
                         type: 'line',
                         mode: 'vertical',
                         scaleID: 'x',
-                        value: labels[10], // Initial value, adjust as needed
+                        value: labelsPM[5], // Initial value, adjust as needed
                         borderColor: 'gray',
                         borderWidth: 1,
                         label: {
@@ -119,7 +136,7 @@ if (isset($_POST['room_num'])) {
                     x: {
                         title: {
                             display: true,
-                            text: 'Date Acquired'
+                            text: 'Time'
                         }
                     },
                     y: {
@@ -133,18 +150,15 @@ if (isset($_POST['room_num'])) {
         });
     }
 
-    // Dummy data if no specific room data is available
-    var labelsDaily = ['0000-00-00', '0000-00-00', '0000-00-00', '0000-00-00', '0000-00-00', '0000-00-00', '0000-00-00'];
-    var pmOneDataDaily = [0, 0, 0, 0, 0, 0, 0];
-    var pmTwoFiveDataDaily = [0, 0, 0, 0, 0, 0, 0];
-    var pmTenDataDaily = [0, 0, 0, 0, 0, 0, 0];
-
-
-    // Call initializeChart() when the page loads
+    // Print initial chart with dummy data on page load
     document.addEventListener('DOMContentLoaded', function() {
-        initializeDailyChart(labelsDaily, pmOneDataDaily, pmTwoFiveDataDaily, pmTenDataDaily);
+        var labelsPM = ['00:00', '00:00', '00:00', '00:00', '00:00'];
+        var pmOneData = [0, 0, 0, 0, 0];
+        var pmTwoFiveData = [0, 0, 0, 0, 0];
+        var pmTenData = [0, 0, 0, 0, 0];
+
+        initializePMChart(labelsPM, pmOneData, pmTwoFiveData, pmTenData);
     });
 </script>
 
-<h3>Particulate Matter Reading (Daily Interval)</h3>
-<canvas id="lineDailyChart" width="800" height="350"></canvas>
+<canvas id="linePMChart" width="800" height="450"></canvas>

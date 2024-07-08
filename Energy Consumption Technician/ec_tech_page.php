@@ -1,4 +1,6 @@
-<?php require_once('../scripts/database_connect.php'); ?>
+<?php
+require_once('../scripts/database_connect.php');
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -42,39 +44,50 @@
             <span><a class="deleted-sensor" href="ec_tech_deleted_sensors.php">Deleted Sensors</a></span>
         </div>
         <div class="button-container">
-            <div class="search-input">
-                <label for="search-input">Parameter Type:</label>
-                <input type="text" id="search-input" oninput="searchTable()" placeholder="Search...">
-            </div>
-            <div class="sorting-dropdown">
-                <label for="sort-by">Sort By:</label>
-                <select id="sort-by" onchange="sortTable()">
-                    <option value="bldg_floor">Building Floor</option>
-                    <option value="room_num">Facility</option>
-                    <option value="room_type">Facility Type</option>
-                    <option value="room_added_at">Last Update</option>
-                </select>
-            </div>
+            <?php include '../Energy Consumption Technician/ec tech script/input_table.php'; ?>
+            <form class="import-table" method="POST" enctype="multipart/form-data" action="../scripts/import_table_energy.php" id="importForm">
+                <label class="import-btn" style="margin-right: 20px; margin-left: 1225px;">
+                    <span class="fas fa-file-import"></span>
+                    <span style="display: inline-block;">Import</span>
+                    <input type="hidden" id="table_name" name="table_name">
+                    <input type="file" name="csv_file" id="csvFile" style="display: none;" required accept=".csv" onchange="updateTableName()">
+                </label>
+            </form>
+            <form class="export-table" method="POST" action="../scripts/export_table_energy.php" id="exportForm">
+                <label class="export-btn" for="exportBtn">
+                    <span class="fas fa-file-export"></span>
+                    <span style="display: inline-block;">Export</span>
+                </label>
+                <input type="hidden" id="table_export" name="table_name" value="<?php echo htmlspecialchars($table); ?>">
+                <button type="submit" id="exportBtn" style="display: none;"></button>
+            </form>
         </div>
         <div class="table-container">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Building Floor</th>
-                        <th>Facility</th>
-                        <th>Sensor ID</th>
-                        <th>Sensor Type</th>
-                        <th>Energy Consumption</th>
-                    </tr>
-                </thead>
-                <tbody id="ec-param-table">
-                    <?php include '../Energy Consumption Technician/parameters/ec_general_table.php' ?>
-                </tbody>
+            <table class="table" id="ec-param-table">
+                <?php include 'parameters/ec_tech_table.php'; ?>
             </table>
-            <ul id="pagination" class="pagination">
-            </ul>
+            <ul id="pagination" class="pagination"></ul>
         </div>
     </div>
 </body>
 
 </html>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    // Import form submission
+    function updateTableName() {
+        // Get the selected file
+        const fileInput = document.getElementById('csvFile');
+        const fileName = fileInput.files[0].name;
+
+        // Remove the file extension
+        const fileNameWithoutExtension = fileName.split('.').slice(0, -1).join('.');
+
+        // Update the value of table_name input
+        document.getElementById('table_name').value = fileNameWithoutExtension;
+
+        // Submit form
+        document.getElementById('importForm').submit();
+    }
+</script>

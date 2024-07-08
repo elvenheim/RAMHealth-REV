@@ -1,12 +1,12 @@
 <?php
-require_once('aq_connect.php');
+    require_once('aq_connect.php');
 
-$roomQuery = "SELECT bf.* FROM building_floor bf";
-$roomResult = mysqli_query($con, $roomQuery);
+    $roomQuery = "SELECT bf.* FROM building_floor bf";
+    $roomResult = mysqli_query($con, $roomQuery);
 
-if (!$roomResult) {
-    die("Database query failed: " . mysqli_error($con));
-}
+    if (!$roomResult) {
+        die("Database query failed: " . mysqli_error($con));
+    }
 ?>
 
 <div class="sorting-dropdown" style="margin-left: 10px; margin-right: 10px;">
@@ -46,25 +46,29 @@ if (!$roomResult) {
     </select>
 </div>
 
-<input type="hidden" id="selected_interval" value="">
-
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     function refreshElements(roomNumber) {
-        // pm gauges ajax callback
+
+        var interval = document.getElementById('selected_interval').value;
+
+        console.log('Interval:', interval);
+
+        // 1st gauges ajax callback
         $.ajax({
             type: 'POST',
-            url: 'elements/pm_gauges.php',
+            url: 'elements/gauges_one.php',
             data: {
+                interval: interval,
                 room_num: roomNumber
             },
             success: function(response) {
-                // Clear existing gauges
+                // Clear existing gauges for Particulate Matter
                 $('#gauge-div-pmOne').empty();
                 $('#gauge-div-pmTwoFive').empty();
                 $('#gauge-div-pmTen').empty();
 
-                // Update each gauge with respective data
+                // Update each Particulate Matter gauge with respective data
                 drawJustGauge('gauge-div-pmOne', response.pmOne, 'Particulate Matter 1 (Latest)');
                 drawJustGauge('gauge-div-pmTwoFive', response.pmTwoFive, 'Particulate Matter 2.5 (Latest)');
                 drawJustGauge('gauge-div-pmTen', response.pmTen, 'Particulate Matter 10 (Latest)');
@@ -74,18 +78,28 @@ if (!$roomResult) {
             }
         });
 
-        // temperature gauges ajax callback
+        // 2nd gauges ajax callback
         $.ajax({
             type: 'POST',
-            url: 'elements/temperature_gauges.php',
+            url: 'elements/gauges_two.php',
             data: {
+                interval: interval,
                 room_num: roomNumber
             },
             success: function(response) {
-                // Clear existing gauges
+                // Clear Existing Gauges for Gas Levels
+                $('#gauge-div-co2').empty();
+                $('#gauge-div-humidity').empty();
+
+                // Update each Gas Level gauge with respective data
+                drawJustGaugeCo2('gauge-div-co2', response.paramCo2Level, 'Co2 Level (Latest)');
+                drawJustGaugeHumidity('gauge-div-humidity', response.paramHumidity, 'Relative Humidity (Latest)');
+
+                // Clear existing gauge for temperature
                 $('#gauge-div-temperature').empty();
                 $('#gauge-div-heatIndex').empty();
 
+                // Update temperature gauge with respective data
                 drawJustGaugeTemp('gauge-div-temperature', response.paramTemperature, 'Temperature (Latest)');
                 drawJustGaugeTemp('gauge-div-heatIndex', response.paramHeatIndex, 'Heat Index (Latest)');
             },
@@ -94,91 +108,129 @@ if (!$roomResult) {
             }
         });
 
-        // co2 and relative humidity gauges ajax callback
+        // pm charts ajax callback
         $.ajax({
             type: 'POST',
-            url: 'elements/others.php',
+            url: 'elements/pm_charts.php',
             data: {
+                interval: interval,
                 room_num: roomNumber
             },
             success: function(response) {
-                // Clear existing gauges
-                $('#gauge-div-co2').empty();
-                $('#gauge-div-humidity').empty();
+                var dataPoints = response.dataPoints;
 
-                drawJustGaugeCo2('gauge-div-co2', response.paramCo2Level, 'Co2 Level (Latest)');
-                drawJustGaugeHumidity('gauge-div-humidity', response.paramHumidity, 'Relative Humidity (Latest)');
-            },
-            error: function(xhr, status, error) {
-                console.error('AJAX Error:', error);
-            }
-        });
-
-        // pm five minutes ajax callback
-        $.ajax({
-            type: 'POST',
-            url: 'elements/pm_charts_five.php',
-            data: {
-                room_num: roomNumber
-            },
-            success: function(response) {
                 // Process data for line chart
-                var labels = response.dataPoints.map(function(point) {
+                var labelsPM = dataPoints.map(function(point) {
                     return point.formatted_time;
                 });
-                var pmOneData = response.dataPoints.map(function(point) {
+                var pmOneData = dataPoints.map(function(point) {
                     return point.pm_one;
                 });
-                var pmTwoFiveData = response.dataPoints.map(function(point) {
+                var pmTwoFiveData = dataPoints.map(function(point) {
                     return point.pm_two_five;
                 });
-                var pmTenData = response.dataPoints.map(function(point) {
+                var pmTenData = dataPoints.map(function(point) {
                     return point.pm_ten;
                 });
 
                 // Update line chart
-                initializeChart(labels, pmOneData, pmTwoFiveData, pmTenData);
+                initializePMChart(labelsPM, pmOneData, pmTwoFiveData, pmTenData);
             },
             error: function(xhr, status, error) {
                 console.error('AJAX Error:', error);
             }
         });
 
-        // pm daily chart ajax callback
+        // temperature charts ajax callback
         $.ajax({
             type: 'POST',
-            url: 'elements/pm_charts_daily.php',
+            url: 'elements/temp_charts.php',
             data: {
+                interval: interval,
                 room_num: roomNumber
             },
             success: function(response) {
+                var dataPoints = response.dataPoints;
+
                 // Process data for line chart
-                var labelsDaily = response.dataPoints.map(function(point) {
-                    return point.formatted_date;
+                var labelsTemp = dataPoints.map(function(point) {
+                    return point.formatted_time;
                 });
-                var pmOneDataDaily = response.dataPoints.map(function(point) {
-                    return point.avg_pm_one;
+                var dataTemp = dataPoints.map(function(point) {
+                    return point.param_temp;
                 });
-                var pmTwoFiveDataDaily = response.dataPoints.map(function(point) {
-                    return point.avg_pm_two_five;
-                });
-                var pmTenDataDaily = response.dataPoints.map(function(point) {
-                    return point.avg_pm_ten;
+                var dataHeatIndex = dataPoints.map(function(point) {
+                    return point.heat_index;
                 });
 
                 // Update line chart
-                initializeDailyChart(labelsDaily, pmOneDataDaily, pmTwoFiveDataDaily, pmTenDataDaily);
+                initializeTempChart(labelsTemp, dataTemp, dataHeatIndex);
             },
             error: function(xhr, status, error) {
                 console.error('AJAX Error:', error);
             }
         });
+
+        // co2 charts ajax callback
+        $.ajax({
+            type: 'POST',
+            url: 'elements/co2_charts.php',
+            data: {
+                interval: interval,
+                room_num: roomNumber
+            },
+            success: function(response) {
+                var dataPoints = response.dataPoints;
+
+                // Process data for line chart
+                var labelsCo2 = dataPoints.map(function(point) {
+                    return point.formatted_time;
+                });
+                var dataCo2 = dataPoints.map(function(point) {
+                    return point.co2_level;
+                });
+
+                // Update line chart
+                initializeCo2Chart(labelsCo2, dataCo2);
+            },
+            error: function(xhr, status, error) {
+                console.error('AJAX Error:', error);
+            }
+        });
+
+        // humidity charts ajax callback
+        $.ajax({
+            type: 'POST',
+            url: 'elements/humidity_charts.php',
+            data: {
+                interval: interval,
+                room_num: roomNumber
+            },
+            success: function(response) {
+                var dataPoints = response.dataPoints;
+
+                var labelsHumidity = dataPoints.map(function(point) {
+                    return point.formatted_time;
+                });
+                var dataHumidity = dataPoints.map(function(point) {
+                    return point.rel_humid;
+                });
+
+                // Update the chart with new data
+                initializeHumidityChart(labelsHumidity, dataHumidity);
+            },
+            error: function(xhr, status, error) {
+                console.error('AJAX Error:', error);
+            }
+        });
+
 
         // ajax post for aq export csv file
         $.ajax({
             type: 'POST',
             url: 'aq_dashboard.php',
             data: {
+                interval: interval,
                 room_num: roomNumber
             },
             success: function(response) {
@@ -189,25 +241,5 @@ if (!$roomResult) {
                 console.error('AJAX Error:', error);
             }
         });
-
-        var selectedIntervalFacility = document.getElementById('selected_interval').value;
-
-        // aq parameter summary ajax callback
-        $.ajax({
-            type: 'POST',
-            url: 'elements/aq_param_summary.php',
-            data: {
-                table_interval: selectedIntervalFacility,
-                selected_room: roomNumber
-            },
-            success: function(response) {
-                // Update the content of the data-summary-content div with the response
-                document.getElementById('data-summary').innerHTML = response;
-            },
-            error: function(xhr, status, error) {
-                console.error('AJAX Error:', error);
-            }
-        });
-
     }
 </script>

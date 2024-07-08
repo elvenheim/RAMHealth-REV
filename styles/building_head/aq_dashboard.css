@@ -22,6 +22,8 @@
     height: 100%;
     width: 500px;
     box-shadow: -2px 2px 5px rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: row;
 }
 
 .middle-dashboard{
@@ -30,49 +32,53 @@
     border: 1px solid black;
     border-radius: 5px;
     height: 100%;
-    width: 900px;
+    width: 680px;
     box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.5);
 }
 
 .right-dashboard{
+    border: 1px solid black;
+    border-radius: 5px;
     height: 100%;
-    width: 500px;
+    width: 680px;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.5);
 }
 
-.right-dashboard-one{
-    border: 1px solid black;
-    border-radius: 5px;
-    /* height: 395px; */
-    height: 52.5%;
-    width: 500px;
-    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
-    margin-bottom: 10px;
-}
-
-.right-dashboard-two{
-    border: 1px solid black;
-    border-radius: 5px;
-    /* height: 345px; */
-    height: 46%;
-    width: 500px;
-    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
-}
-
-.pm-gauge-container {
+.left-gauge-container-one {
     margin-top: 15px;
-    height: 750px;
-    /* Fixed height for scrollable container */
-    width: auto;
+    height: 750px; /* Fixed height for scrollable container */
+    width: 375px;
     display: flex;
     flex-direction: column;
     align-items: center;
     overflow: hidden;
 }
 
-.pm-gauge-container>div {
+.left-gauge-container-one>div {
     margin-top: 20px;
-    width: 400px;
-    height: 200px;
+    width: 200px;
+    height: 100px;
+    display: flex;
+    flex-direction: row;
+}
+
+.left-gauge-container-two {
+    margin-top: 15px;
+    height: 750px;
+    /* Fixed height for scrollable container */
+    width: 375px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow: hidden;
+}
+
+.left-gauge-container-two>div {
+    margin-top: 20px;
+    width: 200px;
+    height: 100px;
+    display: flex;
+    flex-direction: row;
 }
 
 .line-chart-container{

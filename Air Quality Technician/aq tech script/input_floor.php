@@ -1,5 +1,5 @@
 <?php
-require_once('ec_connect.php');
+require_once('aq_param_connect.php');
 
 $roomQuery = "SELECT bf.* FROM building_floor bf";
 $roomResult = mysqli_query($con, $roomQuery);
@@ -10,8 +10,8 @@ if (!$roomResult) {
 ?>
 
 <div class="sorting-dropdown" style="margin-left: 10px; margin-right: 10px;">
-    <label for="sort-by">Floor:</label>
-    <select id="sort-by" onchange="chooseFloor()">
+    <label for="floor-by">Floor:</label>
+    <select id="floor-by" onchange="chooseFloor()">
         <option value="">Select Floor</option>
         <?php
         while ($row = mysqli_fetch_assoc($roomResult)) {
@@ -23,14 +23,14 @@ if (!$roomResult) {
 
 <script>
     function chooseFloor() {
-        var floorId = document.getElementById('sort-by').value;
+        var floorId = document.getElementById('floor-by').value;
         if (floorId) {
             var xhr = new XMLHttpRequest();
-            xhr.open('POST', 'get_facilities.php', true);
+            xhr.open('POST', 'aq tech script/get_facilities.php', true);
             xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
             xhr.onreadystatechange = function() {
                 if (xhr.readyState == 4 && xhr.status == 200) {
-                    document.getElementById('facility-dropdown').innerHTML = xhr.responseText;
+                    document.getElementById('facility-sort').innerHTML = xhr.responseText;
                 }
             };
             xhr.send('floor_id=' + floorId);
@@ -40,8 +40,10 @@ if (!$roomResult) {
 
 <div id="facility-dropdown" class="sorting-dropdown">
     <label for="facility-sort">Facility:</label>
-    <select id="facility-sort">
-        <option value="">Select Facility</option>
+    <select id="facility-sort" onchange="selectRoom()">
+        <option value=" " disabled selected>Select Facility</option>
         <!-- Options will be populated by AJAX -->
     </select>
 </div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>

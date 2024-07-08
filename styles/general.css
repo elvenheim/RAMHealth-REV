@@ -119,7 +119,6 @@ body {
 /* sort dropdown */
 .sorting-dropdown{
     display: flex;
-    text-align: center;
     align-items: center;
     background-color: transparent;
     border: none;

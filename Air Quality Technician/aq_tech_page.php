@@ -43,28 +43,22 @@
             <span><a class="deleted-sensor" href="aq_tech_deleted_sensors.php">Deleted Sensors</a></span>
         </div>
         <div class="button-container">
-            <div class="search-input">
-                <label for="search-input">Facility:</label>
-                <input type="text" id="search-input" oninput="searchTable()" placeholder="Search...">
-            </div>
-            <div class="sorting-dropdown">
+            <?php include '../Air Quality Technician/aq tech script/input_floor.php' ?>
+            <div class="sorting-dropdown" style="margin-left: 10px;">
                 <label for="sort-by">Sort By:</label>
                 <select id="sort-by" onchange="sortTable()">
                     <option value="room_id">Facility</option>
                     <option value="co2_level">CO2 Level (ppm)</option>
-                    <option value="co_level">CO Level (ppm)</option>
                     <option value="rel_humid">Relative Humidity (%)</option>
-                    <option value="ozone_level">Ozone Level (ppm)</option>
                     <option value="pm_one">PM1 (ug/m3)</option>
                     <option value="pm_two_five">PM2.5 (ug/m3)</option>
                     <option value="pm_ten">PM10 (ug/m3)</option>
-                    <option value="param_temp">Temperature</option>
-                    <option value="param_tvoc">TVOC Level (ppm)</option>
+                    <option value="param_temp">Temperature (°C)</option>
                     <option value="heat_index">Heat Index (°C)</option>
                     <option value="date_acquired">Date Acquired</option>
                 </select>
             </div>
-            <div class="sorting-dropdown" style="margin-left: 20px;">
+            <div class="sorting-dropdown" style="margin-left: 10px;">
                 <label for="table-select">Interval:</label>
                 <select id="table-select" onchange="changeTable()">
                     <option value="aq_param_five">5-Minutes</option>
@@ -72,7 +66,7 @@
                 </select>
             </div>
             <form class="import-table" method="POST" enctype="multipart/form-data" action="../scripts/import_table.php" id="importForm">
-                <label class="import-btn" style="margin-right: 20px; margin-left: 805px;">
+                <label class="import-btn" style="margin-right: 20px; margin-left: 595px;">
                     <span class="fas fa-file-import"></span>
                     <span style="display: inline-block;">Import</span>
                     <input type="hidden" id="table_name" name="table_name">
@@ -85,6 +79,7 @@
                     <span style="display: inline-block;">Export</span>
                 </label>
                 <input type="hidden" id="table_export" name="table_name" value="aq_param_five">
+                <input type="hidden" id="table_room" name="table_room" value="0">
                 <button type="submit" id="exportBtn" style="display: none;"></button>
             </form>
         </div>

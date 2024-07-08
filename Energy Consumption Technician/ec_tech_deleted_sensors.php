@@ -69,7 +69,7 @@
                     </tr>
                 </thead>
                 <tbody id="sensor-manage-table">
-                    <?php include '../Air Quality Technician/sensor tables/deleted_sensor_table.php' ?>
+                    <?php include '../Energy Consumption Technician/sensor tables/deleted_sensor_table.php' ?>
                 </tbody>
             </table>
             <ul id="pagination" class="pagination">

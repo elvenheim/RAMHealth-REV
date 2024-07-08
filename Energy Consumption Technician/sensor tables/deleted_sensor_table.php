@@ -14,29 +14,39 @@
 
     $total_pages = ceil($total_rows / $rows_per_page);
 
-    $sql = "SELECT daq.*, st.sensor_type_name, rn.room_num, rn.bldg_floor
-                    FROM deleted_aq_sensors daq
-                    LEFT JOIN room_number rn ON daq.deleted_aq_sensor_room_num = rn.room_num
-                    LEFT JOIN sensor_type st ON daq.deleted_aq_sensor_type_id = st.sensor_type_id
-                    GROUP BY daq.deleted_aq_sensor_id
-                    ORDER BY rn.bldg_floor DESC
-                    LIMIT $offset, $rows_per_page";
+    $sql ="SELECT decs.*, epg.ec_panel_grouping_id, epl.ec_panel_label_id, bf.bldg_floor_name, decs.arduino_room_num,
+                easl.ec_arduino_sensor_label_id, st.sensor_type_name
+        FROM deleted_ec_sensors AS decs
+        LEFT JOIN ec_arduino_sensor_linking AS easl ON decs.ec_arduino_sensor_id = easl.ec_arduino_deleted_sensor
+
+        LEFT JOIN ec_panel_grouping epg ON easl.ec_panel_grouping_id = epg.ec_panel_grouping_id 
+        LEFT JOIN ec_panel_label epl ON easl.ec_panel_label_id = epl.ec_panel_label_id 
+        LEFT JOIN ec_arduino_label_sensor eals ON easl.ec_arduino_sensor_label_id = eals.ec_arduino_sensor_label_id 
+        LEFT JOIN ec_arduino_sensors eas ON easl.ec_arduino_sensors_id = eas.ec_arduino_sensors_id
+
+        LEFT JOIN room_number rn ON decs.arduino_bldg_floor = rn.bldg_floor AND decs.arduino_room_num = rn.room_num
+        LEFT JOIN building_floor bf ON rn.bldg_floor = bf.building_floor 
+        LEFT JOIN sensor_type st ON decs.arduino_sensors_type = st.sensor_type_id
+        ORDER BY bf.building_floor ASC
+        LIMIT $offset, $rows_per_page";
 
     $result_table = mysqli_query($con, $sql);
 
-    while ($row = mysqli_fetch_assoc($result_table)) {
-        echo "<tr>";
-        echo "<td>" . $row['bldg_floor'] . "</td>";
-        echo "<td>" . $row['room_num'] . "</td>";
-        echo "<td>" . $row['deleted_aq_sensor_id'] . "</td>";
-        echo "<td>" . $row['deleted_aq_sensor_name'] . "</td>";
+    while ($row = mysqli_fetch_assoc($result_table)){
+        echo '<tr data-sensor-id="' . $row['ec_arduino_sensor_id'] . '"' . '>';
+        echo "<td>" . $row['ec_panel_grouping_id'] . "</td>";
+        echo "<td>" . $row['ec_panel_label_id'] . "</td>";
+        echo "<td>" . $row['bldg_floor_name'] . "</td>";
+        echo "<td>" . $row['arduino_room_num'] . "</td>";
+        echo "<td>" . $row['ec_arduino_sensor_label_id'] . "</td>";
+        echo "<td>" . $row['ec_arduino_sensor_id'] . "</td>";
         echo "<td>" . $row['sensor_type_name'] . "</td>";
-        echo "<td>" . $row['deleted_aq_sensor_add_at'] . "</td>";
-        echo "<td>" . $row['deleted_aq_sensor_deleted_at'] . "</td>";
+        echo "<td>" . $row['arduino_sensors_added_at'] . "</td>";
+        echo "<td>" . $row['arduino_sensors_deleted_at'] . "</td>";
         echo '<td class="action-buttons">';
         echo '<div>';
-        echo '<button class="restore-button" type="button" onclick="restoreRow(\'' . $row['deleted_aq_sensor_id'] . '\')"> 
-                        <i class="fas fa-rotate-left"></i></button>';
+        echo '<button class="restore-button" type="button" onclick="restoreRow(\'' . $row['ec_arduino_sensor_id'] . '\')"> 
+                <i class="fas fa-rotate-left"></i></button>';
         echo '</div>';
         echo "</td>";
         echo "</tr>";

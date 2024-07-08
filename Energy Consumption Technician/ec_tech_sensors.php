@@ -69,6 +69,7 @@
                     $result_table = mysqli_query($con, $sql);
 
                     echo '<option value="none">None</option>';
+                    echo '<option value="all">All</option>';
 
                     while ($row = mysqli_fetch_assoc($result_table)) {
                         echo '<option value="' . $row['sensor_type_id'] . '">' . $row['sensor_type_name'] . '</option>';

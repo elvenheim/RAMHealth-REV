@@ -12,8 +12,13 @@
         $conditions[] = "easl.ec_panel_grouping_id = '$floor_by'";
     }
     if ($sensor_by) {
-        $conditions[] = "ec_arduino_sensors_type = '$sensor_by'";
+        if ($sensor_by === 'all') {
+            $conditions[] = "st.sensor_type_id IN (6, 7, 8, 9, 10)";
+        } else {
+            $conditions[] = "st.sensor_type_id = '$sensor_by'";
+        }
     }
+    
     $where_clause = $conditions ? 'WHERE ' . implode(' AND ', $conditions) : '';
 
     $count_query = "SELECT COUNT(*) as count
