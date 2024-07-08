@@ -45,33 +45,6 @@
             <div class="role-list-card">
                 <?php include '../scripts/role_cards.php' ?>
             </div>
-            <div class="tutorial-container" style="display: none;">
-                <button class="tutorial-button" type="button" onclick="show_tutorial()" disabled>TUTORIAL</button>
-                <div class="tutorial-background"></div>
-                <div class="tutorial-card">
-                    <div class="tutorial-header">
-                        <span class="tutorial-title">Tutorial</span>
-                        <span class="tutorial-close fa-solid fa-xmark"></span>
-                    </div>
-                    <div class="tutorial-content">
-                        <span class="admin-title video-title">Administrator Tutorial</span>
-                        <video width="max-content" height="max-content" controls>
-                            <source src="../Home/tutorial/sample video.mp4" type="video/mp4">
-                            Your browser does not support the video element.
-                        </video>
-                        <span class="video-title">Housekeeper</span>
-                        <video width="max-content" height="max-content" controls>
-                            <source src="../Home/tutorial/sample video 2.mp4" type="video/mp4">
-                            Your browser does not support the video element.
-                        </video>
-                        <span class="video-title">Air Quality Technician</span>
-                        <video width="max-content" height="max-content" controls>
-                            <source src="../Home/tutorial/sample video 3.mp4" type="video/mp4">
-                            Your browser does not support the video element.
-                        </video>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
 </body>
