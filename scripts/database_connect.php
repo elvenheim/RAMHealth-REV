@@ -4,7 +4,7 @@
     }
 
     // Database 1 - ramhealth
-    $host1 = "localhost";
+    $host1 = "samplehost";
     $user1 = "root";
     $password1 = "";
     $db_name1 = "ramhealth";
